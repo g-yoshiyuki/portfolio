@@ -1,0 +1,76 @@
+@charset "UTF-8";
+@use '../setting' as s;
+@use "sass:math";
+/*★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+base
+★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★ */
+html {
+  // 最小font-size対策
+  @include s.xs {
+    font-size: math.div(18, 640) * 100vw;
+  }
+  // 640px以下
+  @include s.sm {
+    font-size: math.div(16, 640) * 100vw;
+  }
+  // 641px〜992px
+  @include s.medium-devices {
+    font-size: math.div(16, 992) * 100vw;
+  }
+  // 993px以上
+  @include s.lg-min {
+    font-size: math.div(16, 1280) * 100vw;
+  }
+  // 1281px以上
+  @include s.xl-min {
+    font-size: 16px;
+  }
+}
+body {
+  // background: s.$bg;
+  font-size: math.div(18,16)*1rem;
+  font-family: s.$f-ja;
+  font-weight: 400;
+  color: s.$c-base;
+  letter-spacing: 0;
+  font-feature-settings: 'palt';
+  -webkit-font-smoothing: antialiased;
+  // iPhone文字拡大対策
+  -webkit-text-size-adjust: 100%;
+}
+a {
+  color: inherit;
+}
+
+img {
+  vertical-align: bottom;
+  width: 100%;
+}
+
+// iPhoneでフォーム入力時に拡大されるのを防ぐ
+input {
+  font-size: 16px;
+}
+
+select {
+  font-size: 16px;
+}
+
+textarea {
+  font-size: 16px;
+}
+// iPhoneのデフォルトスタイル削除
+input[type='submit'] {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+// Safariでinputタグが角丸になるのを防ぐ
+input[type='button'],
+input[type='text'],
+input[type='submit'],
+input[type='image'],
+textarea {
+  -webkit-appearance: none;
+  border-radius: 0;
+}

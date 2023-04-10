@@ -1,0 +1,197 @@
+@charset "UTF-8";
+
+/* ----------------------- */
+/* メディアクエリ（max-width)
+/* ----------------------- */
+@mixin xxxl($xxxl: 1920px) {
+  @media (max-width: ($xxxl)) {
+    @content;
+  }
+}
+@mixin xxl($xxl: 1440px) {
+  @media (max-width: ($xxl)) {
+    @content;
+  }
+}
+@mixin xl($xl: 1280px) {
+  @media (max-width: ($xl)) {
+    @content;
+  }
+}
+@mixin lg($lg: 992px) {
+  @media (max-width: ($lg)) {
+    @content;
+  }
+}
+@mixin md($md: 768px) {
+  @media (max-width: ($md)) {
+    @content;
+  }
+}
+// @mixin sm($sm: 576px) {
+//   @media (max-width: ($sm)) {
+//     @content;
+//   }
+// }
+@mixin sm($sm: 640px) {
+  @media (max-width: ($sm)) {
+    @content;
+  }
+}
+@mixin xs($xs: 400px) {
+  @media (max-width: ($xs)) {
+    @content;
+  }
+}
+// ハンバガーに切り替えるタイミング（案件によって$hmの数値を変える）
+@mixin hm($hm: 1020px) {
+  @media (max-width: ($hm)) {
+    @content;
+  }
+}
+/* ----------------------- */
+/* メディアクエリ（min-width)
+/* ----------------------- */
+@mixin xs-min($xs-min: 400px) {
+  @media (min-width: ($xs-min)) {
+    @content;
+  }
+}
+
+// @mixin sm-min($sm-min: 577px) {
+//   @media (min-width: ($sm-min)) {
+//     @content;
+//   }
+// }
+@mixin sm-min($sm-min: 641px) {
+  @media (min-width: ($sm-min)) {
+    @content;
+  }
+}
+
+@mixin md-min($md-min: 769px) {
+  @media (min-width: ($md-min)) {
+    @content;
+  }
+}
+
+@mixin lg-min($lg-min: 993px) {
+  @media (min-width: ($lg-min)) {
+    @content;
+  }
+}
+
+@mixin xl-min($xl-min: 1281px) {
+  @media (min-width: ($xl-min)) {
+    @content;
+  }
+}
+
+@mixin xxl-min($xxl-min: 1441px) {
+  @media (min-width: ($xxl-min)) {
+    @content;
+  }
+}
+@mixin xxxl-min($xxxl-min: 1921px) {
+  @media (min-width: ($xxxl-min)) {
+    @content;
+  }
+}
+/* ----------------------- */
+/* メディアクエリ（min〜max)
+/* ----------------------- */
+// @mixin medium-devices {
+//   @media (min-width: 768px) and (max-width: 992px) {
+//     @content;
+//   }
+// }
+@mixin medium-devices {
+  @media (min-width: 641px) and (max-width: 992px) {
+    @content;
+  }
+}
+@mixin large-devices {
+  @media (min-width: 641px) and (max-width: 1280px) {
+    @content;
+  }
+}
+@mixin between($min, $max) {
+  @media (min-width: $min) and (max-width: $max) {
+    @content;
+  }
+}
+/* ----------------------- */
+/* プロジェクトmixin
+/* ----------------------- */
+@mixin center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+@mixin column-center {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+@mixin row-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@mixin flex-row-center {
+  display: flex;
+  justify-content: center;
+}
+// 背景画像
+// @mixin bg($pos: center, $size: cover) {
+//   background-position: ($pos);
+//   background-repeat: no-repeat;
+//   background-size: $size;
+// }
+// 背景画像
+// @contentを書いているのでメディアクエリのように
+// カッコでくぐって続きを書ける
+// 引数にファイル名を渡す時は""で囲む
+@mixin bg($fileName,$path:"/img/") {
+	background-image: url($path + $fileName);
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+  // background-size: 100%;
+	@content;
+}
+// imgの下層にディレクトリをつくる場合
+@mixin bg_pass($fileName,$path:"../images/",$dir: "") {
+	background-image: url($path + $dir + $fileName);
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	@content;
+}
+
+// 例
+// 画面幅1024pxの時に10px。1440pxの時に14pxのfont-sizeになる。
+// html {
+//   @include responsive-font-size(1024, 1440, 10, 14);
+// }
+// @mixin responsive-font-size($baseWidth, $targetWidth, $fontSizeMin, $fontSizeMax) {
+//   $widthDifference: $targetWidth - $baseWidth;
+//   $fontSizeDifference: $fontSizeMax - $fontSizeMin;
+
+//   $vwPerFontSize: $fontSizeDifference / $widthDifference;
+//   $vwAtBaseWidth: $fontSizeMin / $vwPerFontSize;
+
+//   $fontSizeAdjustment: $vwAtBaseWidth * 1vw - $baseWidth * $vwPerFontSize;
+
+//   font-size: calc(#{$vwAtBaseWidth * 1vw - $fontSizeAdjustment});
+// }
+
+
+// 画面幅が640pxの時に16pxで、画面幅が320pxの時に10pxになるように可変させるための式。
+// font-size = (target font-size - min font-size) / (target width - min width) * (100vw - min width) + min font-size
+
+// font-size: calc((16 - 10) / (640 - 320) * (100vw - 320px) + 10px);
