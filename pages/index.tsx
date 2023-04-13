@@ -84,7 +84,7 @@ const Home: NextPage = () => {
     const animations = {
       textAnim: {
         from: { opacity: 0, y: 30 },
-        to: { opacity: 1, y: 0, duration: 1, ease: "power2.out" },
+        to: { opacity: 1, y: 0, duration: 1, ease: "power4.out" },
       },
       textAnimSide: {
         from: { opacity: 0, x: -20 },

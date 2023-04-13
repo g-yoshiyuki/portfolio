@@ -336,6 +336,9 @@ main {
     transition-property: clip-path;
   }
 }
+.js-titleAnim,.js-textAnim,.js-textAnim--side,.js-fadeUpAnim {
+  will-change: transform;
+}
 
 /* ----------------------- */
 /*header
