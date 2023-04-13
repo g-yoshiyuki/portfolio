@@ -24,21 +24,22 @@
       weight: 600;
     }
     line-height: 1;
-    margin-bottom: .7em;
+    margin-bottom: 0.7em;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
     .char {
       color: s.$c-base--alt;
       display: inline-block;
       will-change: transform;
       transform: translateY(100px);
-      transition: transform .5s opacity .3s;
-      margin: 0 .04em;
+      transition: transform 0.5s opacity 0.3s;
+      margin: 0 0.02em;
     }
   }
 }
 .progressBar {
   position: relative;
   width: 160px;
+  // width: math.div(160, 16) * 1rem;
   // width: 0;
   transform: scaleX(0);
   transform-origin: left;
@@ -97,9 +98,9 @@ main {
     height: 1em;
     overflow: hidden;
     line-height: 1;
-    padding-top: .08em;
+    padding-top: 0.08em;
     span {
-      transition: .4s;
+      transition: 0.4s;
       &:last-child {
         color: s.$c-base--alt;
       }
@@ -166,10 +167,9 @@ main {
   // }
 }
 .subText {
-  opacity: 0.7;
   font-size: math.div(13, 16) * 1rem;
   &--alt {
-    color: s.$white;
+    color: s.$c-subText--alt;
   }
 }
 .bg-gray {
@@ -182,7 +182,8 @@ main {
   width: 100%;
   white-space: nowrap;
   ul {
-    animation: flowing 30s linear infinite;
+    // animation: flowing 30s linear infinite;
+    animation: flowing 60s linear infinite;
     transform: translateX(100%);
   }
   li {
@@ -211,7 +212,8 @@ main {
     border-bottom: 1px dashed #565656;
     ul {
       // transform: translateX(-100%);
-      animation: flowing 30s linear infinite;
+      // animation: flowing 30s linear infinite;
+      animation: flowing 40s linear infinite;
     }
     li {
       color: s.$ac;
@@ -261,6 +263,9 @@ main {
   // }
   &--alt {
     color: s.$main;
+  }
+  span {
+    color: inherit;
   }
 }
 .c-title--accent {
@@ -314,51 +319,63 @@ main {
     }
   }
 }
-
-/* ----------------------- */
-/*header
-/* ----------------------- */
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 3;
-  width: 100%;
-  // padding: 22px math.div(70, 1600) * 100%;
-  // display: flex;
-  // justify-content: space-between;
-  transition: top 0.4s;
-  &__logo {
-    color: s.$c-base--alt;
-    font: {
-      size: math.div(23, 16) * 1rem;
-      family: s.$f-en;
-    }
-    letter-spacing: s.$spacing--en;
-  }
-  &__nav {
-  }
-  // .container--l {
-  //   display: flex;
-  //   justify-content: space-between;
-  //   align-items: center;
-  //   @include s.xl-min {
-  //     padding: {
-  //       top: 22px;
-  //       bottom: 22px;
-  //     }
-  //   }
-  // }
-}
-.scroll-header-hidden {
-  top: -100px;
-}
 .break-pc {
   display: none;
   @include s.lg-min {
     display: inline;
   }
 }
+// gsapアニメーション
+.js-titleAnim {
+  // clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  span {
+    display: inline-block;
+    clip-path: inset(0 100% 0 0);
+    // transition: .5s cubic-bezier(0.37, 0, 0.63, 1);
+    transition: 0.5s cubic-bezier(0.08, 0.82, 0.17, 1);
+    transition-property: clip-path;
+  }
+}
+
+/* ----------------------- */
+/*header
+/* ----------------------- */
+// .header {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   z-index: 3;
+//   width: 100%;
+//   // padding: 22px math.div(70, 1600) * 100%;
+//   // display: flex;
+//   // justify-content: space-between;
+//   transition: top 0.4s;
+//   &__logo {
+//     color: s.$c-base--alt;
+//     font: {
+//       size: math.div(23, 16) * 1rem;
+//       family: s.$f-en;
+//     }
+//     letter-spacing: s.$spacing--en;
+//   }
+//   &__nav {
+//   }
+//   .container--l {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     @include s.xl-min {
+//       padding: {
+//         top: 22px;
+//         bottom: 22px;
+//       }
+//     }
+//   }
+// }
+// .scroll-header-hidden {
+//   top: -100px;
+// }
+
 /* ----------------------- */
 /*hero
 /* ----------------------- */
@@ -370,12 +387,15 @@ main {
   // align-items: center;
   position: relative;
   @include s.lg-min {
-    background: rgb(0, 0, 0);
-    background: linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 1) 0%,
-      rgba(67, 67, 67, 0.73) 100%
-    );
+    background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, #7b7b7b 100%);
+    // background-image: linear-gradient(
+    //   90deg,
+    //   rgb(0, 0, 0) 0%,
+    //   rgba(67, 67, 67, 1) 73%
+    // );
+
+    // background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, #6c6c6c 100%);
+    // background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, #707070 100%);
   }
   &__content {
     font-family: s.$f-en;
@@ -389,6 +409,31 @@ main {
     }
     @include s.xl-min {
       left: 0;
+    }
+    .word {
+      display: inline-block;
+      overflow: hidden;
+      position: relative;
+      will-change: transform;
+      // color: inherit;
+      // overflow: hidden;をかけるとline-heightがnormalになるので
+      // 以下で正常に戻す
+      vertical-align: top;
+      // transition: .2s;
+    }
+    // テキストを覆うベタ塗り
+    .rect {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      background-color: s.$c-base--alt;
+      top: 0;
+      left: 0;
+      // transition: .2s;
+    }
+    // spanタグで囲っているアニメーションテキスト
+    .label {
+      color: inherit;
     }
     &-label {
       display: inline-block;
@@ -410,7 +455,8 @@ main {
       color: s.$main;
       letter-spacing: s.$spacing--en;
       line-height: math.div(82, 80);
-      border-bottom: 1px solid s.$border--alt;
+      border-bottom: 0px solid s.$border--alt;
+      // border-bottom: none;
       font-size: math.div(80, 16) * 1rem;
       text-align: center;
       @include s.lg-min {
@@ -442,12 +488,21 @@ main {
         font-size: math.div(16, 16) * 1rem;
         margin-top: 0.5em;
       }
+      .label {
+        display: inline-block;
+        margin-top: 0.3em;
+        @include s.lg {
+          margin-top: 0;
+        }
+      }
     }
   }
   &__image {
     display: none;
+    will-change: transform;
     img {
       filter: drop-shadow(4px 0px 10px rgba(0, 0, 0, 0.35));
+      filter: drop-shadow(4px 0px 10px rgba(0, 0, 0, 0.4));
     }
     @include s.lg-min {
       display: block;
@@ -577,8 +632,8 @@ main {
     left: 0%;
     right: 0%;
     bottom: 0%;
-    background: rgba(44, 44, 44, 0.4);
-    // background: rgba(0, 0, 0, 0.7);
+    // background: rgba(44, 44, 44, 0.4);
+    background: rgba(0, 0, 0, 0.6);
     // background: rgba(0, 0, 0, 0.4);
     z-index: 0;
   }
@@ -598,7 +653,7 @@ main {
     bottom: math.div(120, 16) * 1rem;
   }
   .c-title {
-    margin-bottom: 0.4em;
+    margin-bottom: 0.6em;
   }
   &__list {
     &-dl {

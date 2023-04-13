@@ -1,10 +1,16 @@
 // _app.tsx でインポートしているものを index.tsx や他のコンポーネントでインポートすることでパフォーマンスが悪化することはない。gsapなど使用するページファイルでもimportする。
 import type { AppProps } from "next/app";
 import "../styles/style.scss";
-import { useRef, useEffect } from "react";
+import { useRef, useLayoutEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import LoadingScreen from "../components/LoadingScreen";
+import { AnimationProvider } from "../contexts/AnimationContext";
+import { Header } from "../components/Header";
+import { Footer } from "../components/Footer";
+import Head from "next/head";
+import { DefaultSeo } from "next-seo";
+import { defaultSEO } from "../constants/next-seo.config";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -26,10 +32,9 @@ function debounce(
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
-
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   // useEffectはレンダリング後に実行されるため、正確なページの高さを取得できる
-  useEffect(() => {
+  useLayoutEffect(() => {
     const container = scrollContainerRef.current;
     // body の高さを更新する関数
     const updateBodyHeight = () => {
@@ -64,7 +69,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     if (container) {
       // 初回のbodyの高さを設定
-      updateBodyHeight();
+      // updateBodyHeightを実行するだけでは、正確な高さを取得出来ずページ下部が少し切れてしまう。
+      // handleResize()を実行することで正確に動作した。
+      // updateBodyHeight();
+      handleResize();
+
       // スムーズスクロールのアニメーションを設定
       // document.documentElement.clientHeight = ビューポートの高さ
       // ページの高さからビューポートの高さを引いた値分、移動する。
@@ -87,7 +96,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       });
       tweenInstance = tween; // Tween インスタンスを取得
     }
-
     // クリーンアップ関数
     // アンマウントされる際に実行。リサイズイベントリスナー等を削除して、メモリリークを防ぐ役割。
     return () => {
@@ -103,12 +111,23 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-    <LoadingScreen />
-    <div id="viewport">
-      <div id="scroll-container" ref={scrollContainerRef}>
-        <Component {...pageProps} />
-      </div>
-    </div>
+      <AnimationProvider>
+        <Head>
+          <meta
+            name="viewport"
+            content="minimum-scale=1, initial-scale=1, width=device-width"
+          />
+        </Head>
+        <DefaultSeo {...defaultSEO} />
+        <LoadingScreen />
+        <Header />
+        <div id="viewport">
+          <div id="scroll-container" ref={scrollContainerRef}>
+            <Component {...pageProps} />
+            <Footer />
+          </div>
+        </div>
+      </AnimationProvider>
     </>
   );
 }

@@ -5,10 +5,6 @@
 base
 ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★ */
 html {
-  // 最小font-size対策
-  @include s.xs {
-    font-size: math.div(18, 640) * 100vw;
-  }
   // 640px以下
   @include s.sm {
     font-size: math.div(16, 640) * 100vw;
@@ -25,9 +21,14 @@ html {
   @include s.xl-min {
     font-size: 16px;
   }
+  // 最小font-size対策
+  // 400px以下
+  @include s.xs {
+    font-size: math.div(18, 640) * 100vw;
+  }
 }
 body {
-  // background: s.$bg;
+  background: s.$bg;
   font-size: math.div(18,16)*1rem;
   font-family: s.$f-ja;
   font-weight: 400;

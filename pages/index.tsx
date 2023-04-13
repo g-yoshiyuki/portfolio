@@ -1,17 +1,57 @@
 import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import { useRef, useEffect } from "react";
+import { useRef, useLayoutEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import Hero from "../components/Hero";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
 const Home: NextPage = () => {
+  const servicesData = [
+    {
+      title: "CODING",
+      iconSrc: "/img/coding.svg",
+      iconAlt: "CODING",
+      description:
+        "最新の技術を駆使し、表示速度・SEOに考慮したWebサイトを構築します。ECサイトを含む様々なWebプロジェクトに対応します。アプリ制作に関してもご相談ください。",
+    },
+    {
+      title: "DESIGN",
+      iconSrc: "/img/design.svg",
+      iconAlt: "DESIGN",
+      description:
+        "お客様の目的に沿ったデザインで、印象的なビジュアルを創り出します。ユーザーがわかりやすいサービスを目指し、WebサイトやアプリのUI設計を行います。",
+    },
+    {
+      title: "DIRECTION",
+      iconSrc: "/img/direction.svg",
+      iconAlt: "DIRECTION",
+      description:
+        "お客様のプロジェクトに深く関わり、適切な取材やリサーチをもとにサイト設計を行います。丁寧なヒアリングと分かりやすい言葉での説明を大切にしています。",
+    },
+  ];
+  const worksTextAnim = [
+    "WEB DESIGN - WEB DIRECTION - CODING - APPLICATION -",
+    "WEB DESIGN - WEB DIRECTION - CODING - APPLICATION -",
+    "WEB DESIGN - WEB DIRECTION - CODING - APPLICATION -",
+    "WEB DESIGN - WEB DIRECTION - CODING - APPLICATION -",
+  ];
+  const servicesTextAnim = ["FEATURED SERVICES", "FEATURED SERVICES"];
+
+  type Selector = string;
+  interface AnimationOptions {
+    from: gsap.TweenVars;
+    to: gsap.TweenVars;
+    stagger: number;
+    start?: string;
+    end?: string;
+  }
+
   const parallaxImageRef = useRef<HTMLImageElement>(null);
-  useEffect(() => {
+  // 画像パララックス
+  useLayoutEffect(() => {
     // gsap.utils.toArray関数は、指定されたCSSセレクタに一致するすべての要素を取得し、それらを配列に変換する
     (gsap.utils.toArray(".js-parallax") as HTMLElement[]).forEach(
       (wrap: HTMLElement) => {
@@ -31,115 +71,163 @@ const Home: NextPage = () => {
         });
       }
     );
+
+    // スクロールトリガーの設定が同じ要素のアニメーション設定。まとめて取得
+    const commonScrollTriggerElements: HTMLElement[] = [
+      ...(gsap.utils.toArray(".js-textAnim") as HTMLElement[]),
+      ...(gsap.utils.toArray(".js-textAnim--side") as HTMLElement[]),
+      ...(gsap.utils.toArray(".js-titleAnim span") as HTMLElement[]),
+      ...(gsap.utils.toArray(".js-fadeUpAnim") as HTMLElement[]),
+    ];
+
+    // 各アニメーション設定
+    const animations = {
+      textAnim: {
+        from: { opacity: 0, y: 30 },
+        to: { opacity: 1, y: 0, duration: 1, ease: "power2.out" },
+      },
+      textAnimSide: {
+        from: { opacity: 0, x: -20 },
+        to: { opacity: 1, x: 0, duration: 0.5, ease: "power4.out" },
+      },
+      // GsapはclipPathプロパティをサポートしていないので、
+      // cssで初期設定をつくっている。
+      titleAnim: {
+        from: {},
+        to: { clipPath: "inset(0)" },
+      },
+      fadeUpAnim: {
+        from: { opacity: 0, y: 30 },
+        to: { opacity: 1, y: 0, duration: 1, ease: "power2.out" },
+      },
+    };
+
+    // 条件分岐でelにアニメーション設定
+    commonScrollTriggerElements.forEach((el) => {
+      const isTitleAnim = el.parentElement?.classList.contains("js-titleAnim");
+      const isTextAnimSide = el.classList.contains("js-textAnim--side");
+      const isTextAnim = el.classList.contains("js-textAnim");
+      const isFadeUpAnim = el.classList.contains("js-fadeUpAnim");
+      const isDelayed = el.classList.contains("js-delayed");
+
+      let animationConfig;
+
+      if (isTitleAnim) {
+        animationConfig = animations.titleAnim;
+      } else if (isTextAnimSide) {
+        animationConfig = animations.textAnimSide;
+      } else if (isTextAnim) {
+        animationConfig = animations.textAnim;
+      } else if (isFadeUpAnim) {
+        animationConfig = animations.fadeUpAnim;
+        // 遅延させたい要素に.isDelayedを付与し、以下のコメントアウトを外す
+        // if (isDelayed) {
+        //   // 新しいオブジェクトを作成し、既存の設定と delay を追加
+        //   animationConfig.to = { ...animationConfig.to, delay: 1 };
+        // }
+      } else {
+        // デフォルトのアニメーション設定
+        animationConfig = animations.textAnim;
+      }
+
+      gsap.fromTo(el, animationConfig.from, {
+        ...animationConfig.to,
+        scrollTrigger: {
+          trigger: el,
+          start: window.innerWidth <= 768 ? "top 80%" : "top 70%",
+          end: window.innerWidth <= 768 ? "bottom 40%" : "bottom 30%",
+        },
+      });
+    });
+
+    // staggerを使用するアニメーショングループを生成する関数
+    // staggerを使用するには、ひとつのfromToにまとめる必要があるため別途で作成する。
+    function staggeredFadeUpAnim(
+      selector: Selector,
+      options: AnimationOptions
+    ) {
+      const elements = gsap.utils.toArray(selector) as HTMLElement[];
+      // スマホ時にサービスリストが縦並びになったらstaggerを解除する
+      if (window.innerWidth <= 640) {
+        elements.forEach((element) => {
+          gsap.fromTo(element, options.from, {
+            ...options.to,
+            scrollTrigger: {
+              trigger: element,
+              start: options.start || "top 80%",
+              end: options.end || "bottom 40%",
+            },
+          });
+        });
+      } else {
+        gsap.fromTo(elements, options.from, {
+          ...options.to,
+          stagger: options.stagger,
+          scrollTrigger: {
+            trigger: elements[0],
+            start: options.start || "top 70%",
+            end: options.end || "bottom 30%",
+          },
+        });
+      }
+    }
+    const fadeUpAnimOptions = {
+      from: { opacity: 0, y: 40 },
+      to: { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" },
+      stagger: 0.1,
+    };
+    staggeredFadeUpAnim(".js-staggeredFadeUpAnim", fadeUpAnimOptions);
   }, []);
 
   return (
     <>
-      {/* <header className="header">
-        <div className="container container--l">
-          <div className="header__logo">Goubara Yoshiyuki</div>
-          <nav className="header__nav">
-            <ul className="header__nav-list">
-              <li className="header__nav-item">
-                <a
-                  href="https://goubarayoshiyuki.com/"
-                  target="_blank"
-                  rel="noopener"
-                  className="c-button"
-                >
-                  WORKS
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </header> */}
       <main>
-        <div className="hero">
-          <div className="container">
-            <div className="hero__content">
-              <span className="hero__content-label">FREELANCE</span>
-              <h1 className="hero__content-title">
-                YOSHIYUKI
-                <br />
-                GOUBARA
-                <br />
-                PORTFOLIO
-              </h1>
-              <p className="hero__content-subTitle">WEB CREATOR / DIRECTOR</p>
-              <span className="subText subText--alt">
-                {" "}
-                Contact : <br className="break-pc" />
-                <a
-                  href="mailto:goubarayoshiyuki@gmail.com"
-                  className="text-link"
-                >
-                  goubarayoshiyuki@gmail.com
-                </a>
-              </span>
-            </div>
-            <div className="hero__image">
-              <img src="/img/hero.webp" alt="" />
-            </div>
-          </div>
-        </div>
+        <Hero />
         <section className="introduction bg-gray">
           <div className="container container--s">
-            <p className="introduction__heading">こんにちは 郷原 芳幸です。</p>
-            <p className="introduction__text">
+            <p className="introduction__heading js-textAnim">
+              こんにちは 郷原 芳幸です。
+            </p>
+            <p className="introduction__text js-textAnim">
               Web制作に特化したフリーランスのデザイナー兼ディレクターです。Web制作会社でデザイン、構築、ディレクションを経験いたしました。
             </p>
-            <p className="introduction__text">
+            <p className="introduction__text js-textAnim">
               お客様との距離をより近くし、パーソナライズされたサービスをワンストップで提供することを目指し、現在はフリーランスとして活動しています。
               <br />
               プライベートではアプリ開発に取り組んでおり、新しい技術やトレンドにも常にアンテナを張り、お客様に最適なソリューションを提案できるように努めています。
             </p>
-            <p className="introduction__text">
+            <p className="introduction__text js-textAnim">
               お客様が抱える課題に対して最善の解決策を見つけ出すために、ヒアリングを大切にし、真摯にかつ柔軟に対応いたします。Webサイトに関することはお気軽にご相談ください。
             </p>
           </div>
         </section>
         <section className="services">
           <div className="textAnim">
-            <ul>
-              <li>FEATURED SERVICES</li>
-              <li>FEATURED SERVICES</li>
-            </ul>
-            <ul>
-              <li>FEATURED SERVICES</li>
-              <li>FEATURED SERVICES</li>
-            </ul>
+            {Array.from({ length: 2 }, (_, ulIndex) => (
+              <ul key={ulIndex}>
+                {servicesTextAnim.map((item, liIndex) => (
+                  <li key={`${ulIndex}-${liIndex}`}>{item}</li>
+                ))}
+              </ul>
+            ))}
           </div>
           <div className="container">
-            <h2 className="c-title c-title--alt">SERVICES</h2>
+            <h2 className="c-title c-title--alt js-titleAnim">
+              <span>SERVICES</span>
+            </h2>
             <ul className="services__list">
-              <li className="services__list-item">
-                <h3 className="c-title--accent">- CODING -</h3>
-                <div className="services__list-icon">
-                  <img src="/img/coding.svg" alt="CODING" />
-                </div>
-                <p className="c-text c-text--alt">
-                  最新の技術を駆使し、表示速度・SEOに考慮したWebサイトを構築します。ECサイトを含む様々なWebプロジェクトに対応します。アプリ制作に関してもご相談ください。
-                </p>
-              </li>
-              <li className="services__list-item">
-                <h3 className="c-title--accent">- DESIGN -</h3>
-                <div className="services__list-icon">
-                  <img src="/img/design.svg" alt="DESIGN" />
-                </div>
-                <p className="c-text c-text--alt">
-                  お客様の目的に沿ったデザインで、印象的なビジュアルを創り出します。ユーザーがわかりやすいサービスを目指し、WebサイトやアプリのUI設計を行います。
-                </p>
-              </li>
-              <li className="services__list-item">
-                <h3 className="c-title--accent">- DIRECTION -</h3>
-                <div className="services__list-icon">
-                  <img src="/img/direction.svg" alt="DIRECTION" />
-                </div>
-                <p className="c-text c-text--alt">
-                  お客様のプロジェクトに深く関わり、適切な取材やリサーチをもとにサイト設計を行います。丁寧なヒアリングと分かりやすい言葉での説明を大切にしています。
-                </p>
-              </li>
+              {servicesData.map((service, index) => (
+                <li
+                  className="services__list-item js-staggeredFadeUpAnim"
+                  key={index}
+                >
+                  <h3 className="c-title--accent">- {service.title} -</h3>
+                  <div className="services__list-icon">
+                    <img src={service.iconSrc} alt={service.iconAlt} />
+                  </div>
+                  <p className="c-text c-text--alt">{service.description}</p>
+                </li>
+              ))}
             </ul>
           </div>
         </section>
@@ -156,9 +244,11 @@ const Home: NextPage = () => {
 
         <section className="history bg-gray">
           <div className="container container--s">
-            <h2 className="c-title">HISTORY</h2>
+            <h2 className="c-title js-titleAnim">
+              <span>HISTORY</span>
+            </h2>
             <div className="history__list">
-              <dl className="history__list-dl">
+              <dl className="history__list-dl js-textAnim">
                 <dt className="history__list-dt">2020/10</dt>
                 <dd className="history__list-dd">
                   <p className="c-paragraph">
@@ -200,7 +290,7 @@ const Home: NextPage = () => {
                   <p className="c-paragraph">2021年10月に退職</p>
                 </dd>
               </dl>
-              <dl className="history__list-dl">
+              <dl className="history__list-dl js-textAnim">
                 <dt className="history__list-dt">2021/11</dt>
                 <dd className="history__list-dd">
                   <p className="c-paragraph">
@@ -223,43 +313,42 @@ const Home: NextPage = () => {
         </section>
         <div className="works">
           <div className="textAnim textAnim--accent">
-            <ul>
-              <li>WEB DESIGN - WEB DIRECTION - CODING - APPLICATION -</li>
-              <li>WEB DESIGN - WEB DIRECTION - CODING - APPLICATION -</li>
-              <li>WEB DESIGN - WEB DIRECTION - CODING - APPLICATION -</li>
-              <li>WEB DESIGN - WEB DIRECTION - CODING - APPLICATION -</li>
-            </ul>
-            <ul>
-              <li>WEB DESIGN - WEB DIRECTION - CODING - APPLICATION -</li>
-              <li>WEB DESIGN - WEB DIRECTION - CODING - APPLICATION -</li>
-              <li>WEB DESIGN - WEB DIRECTION - CODING - APPLICATION -</li>
-              <li>WEB DESIGN - WEB DIRECTION - CODING - APPLICATION -</li>
-            </ul>
+            {Array.from({ length: 2 }, (_, ulIndex) => (
+              <ul key={ulIndex}>
+                {worksTextAnim.map((item, liIndex) => (
+                  <li key={`${ulIndex}-${liIndex}`}>{item}</li>
+                ))}
+              </ul>
+            ))}
           </div>
           <div className="container">
-            <p className="works__heading">
-              <span>実務の制作実績はこちら</span>
-            </p>
-            <div className="l-button">
-              <a
-                href="https://goubarayoshiyuki.com/"
-                target="_blank"
-                rel="noopener"
-                className="c-button c-button--l"
-              >
-                <span className="c-button__text">
-                  <span>WORKS</span>
-                  <span>WORKS</span>
-                </span>
-              </a>
+            <div className="js-textAnim">
+              <p className="works__heading">
+                <span>実務の制作実績はこちら</span>
+              </p>
+              <div className="l-button">
+                <a
+                  href="https://goubarayoshiyuki.com/"
+                  target="_blank"
+                  rel="noopener"
+                  className="c-button c-button--l"
+                >
+                  <span className="c-button__text">
+                    <span>WORKS</span>
+                    <span>WORKS</span>
+                  </span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
         <section className="profile">
           <div className="container container--s">
-            <h2 className="c-title c-title--alt">PROFILE</h2>
+            <h2 className="c-title c-title--alt js-titleAnim">
+              <span>PROFILE</span>
+            </h2>
             <div className="profile__info">
-              <div className="profile__info-content">
+              <div className="profile__info-content js-textAnim--side">
                 <p className="c-paragraph c-paragraph--alt">
                   <span className="heading">LANGUAGES</span>
                   HTML / SCSS / JavaScript / Typescript
@@ -273,16 +362,13 @@ const Home: NextPage = () => {
                   Figma / Photoshop / Adobe XD
                 </p>
               </div>
-              <div className="profile__info-image">
+              <div className="profile__info-image js-fadeUpAnim">
                 <img src="/img/image.webp" alt="" />
               </div>
             </div>
           </div>
         </section>
       </main>
-      <footer className="footer">
-        <span className="copy">©goubara yoshiyuki</span>
-      </footer>
     </>
   );
 };
