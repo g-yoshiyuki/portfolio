@@ -390,7 +390,10 @@ main {
 /* ----------------------- */
 .hero {
   background: #050505;
-  min-height: 100vh;
+  // min-height: 100vh;
+
+  height: 100vh;
+  height: 100lvh;
   // containerにmargin: auto;が指定されているため、display: flex;の影響で上下中央になる。
   display: flex;
   // align-items: center;
