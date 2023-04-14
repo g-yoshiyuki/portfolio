@@ -28,14 +28,15 @@ function debounce(
 function MyApp({ Component, pageProps }: AppProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const [isMobile, setIsMobile] = useState<boolean>(false);
+  // デバイス判定。初期値に判定結果が入る。
+  const [isMobile, setIsMobile] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
+  });
 
   useLayoutEffect(() => {
-    // モバイルデバイスの判定
-    const isMobile =
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      );
     // モバイルデバイスの場合、スムーズスクロールを無効にする
     if (isMobile) return;
 
@@ -106,7 +107,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         tweenInstance.kill();
       }
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <>
@@ -120,8 +121,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         <DefaultSeo {...defaultSEO} />
         <LoadingScreen />
         <Header />
-        <div id="viewport">
-          <div id="scroll-container" ref={scrollContainerRef}>
+        <div id="viewport" className={isMobile ? "mobileDevice" : ""}>
+          <div
+            id="scroll-container"
+            ref={scrollContainerRef}
+            className={isMobile ? "mobileDevice" : ""}
+          >
             <Component {...pageProps} />
             <Footer />
           </div>
