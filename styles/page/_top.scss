@@ -65,22 +65,12 @@
 /*共通
 /* ----------------------- */
 #viewport {
-  // position: fixed;
-  // top: 0;
-  // left: 0;
-  // right: 0;
-  // bottom: 0;
-  // height: 100%;
-  // width: 100%;
-  // overflow: hidden;
-
   position: fixed;
   top: 0;
   left: 0;
-  // right: 0;
-  // bottom: 0;
-  height: 100vh;
-  height: 100lvh;
+  right: 0;
+  bottom: 0;
+  height: 100%;
   width: 100%;
   overflow: hidden;
 }
@@ -403,9 +393,8 @@ main {
 .hero {
   background: #050505;
   // min-height: 100vh;
-
   height: 100vh;
-  height: 100lvh;
+  height: 100dvh;
   // containerにmargin: auto;が指定されているため、display: flex;の影響で上下中央になる。
   display: flex;
   // align-items: center;

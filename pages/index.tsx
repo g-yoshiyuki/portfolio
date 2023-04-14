@@ -49,37 +49,37 @@ const Home: NextPage = () => {
     // スクロールトリガーの設定が同じ要素のアニメーション設定。まとめて取得
     const commonScrollTriggerElements: HTMLElement[] = [
       ...(gsap.utils.toArray(".js-textAnim") as HTMLElement[]),
-      // ...(gsap.utils.toArray(".js-textAnim--side") as HTMLElement[]),
+      ...(gsap.utils.toArray(".js-textAnim--side") as HTMLElement[]),
       ...(gsap.utils.toArray(".js-titleAnim span") as HTMLElement[]),
-      // ...(gsap.utils.toArray(".js-fadeUpAnim") as HTMLElement[]),
+      ...(gsap.utils.toArray(".js-fadeUpAnim") as HTMLElement[]),
     ];
     const animations = {
       textAnim: {
         from: { opacity: 0, y: 30 },
         to: { opacity: 1, y: 0, duration: 1, ease: "power4.out" },
       },
-      // textAnimSide: {
-      //   from: { opacity: 0, x: -20 },
-      //   to: { opacity: 1, x: 0, duration: 0.5, ease: "power4.out" },
-      // },
+      textAnimSide: {
+        from: { opacity: 0, x: -30 },
+        to: { opacity: 1, x: 0, duration: 1, ease: "power2.out" },
+      },
       // GsapはclipPathプロパティをサポートしていないので、
       // cssで初期設定をつくっている。
       titleAnim: {
         from: {},
         to: { clipPath: "inset(0)" },
       },
-      // fadeUpAnim: {
-      //   from: { opacity: 0, y: 30 },
-      //   to: { opacity: 1, y: 0, duration: 1, ease: "power2.out" },
-      // },
+      fadeUpAnim: {
+        from: { opacity: 0, y: 30 },
+        to: { opacity: 1, y: 0, duration: 1, ease: "power2.out" },
+      },
     };
 
     // 条件分岐でelにアニメーション設定
     commonScrollTriggerElements.forEach((el) => {
       const isTitleAnim = el.parentElement?.classList.contains("js-titleAnim");
-      // const isTextAnimSide = el.classList.contains("js-textAnim--side");
+      const isTextAnimSide = el.classList.contains("js-textAnim--side");
       const isTextAnim = el.classList.contains("js-textAnim");
-      // const isFadeUpAnim = el.classList.contains("js-fadeUpAnim");
+      const isFadeUpAnim = el.classList.contains("js-fadeUpAnim");
       // const isDelayed = el.classList.contains("js-delayed");
 
       let animationConfig;
@@ -87,20 +87,20 @@ const Home: NextPage = () => {
       if (isTitleAnim) {
         animationConfig = animations.titleAnim;
       }
-      // else if (isTextAnimSide) {
-      //   animationConfig = animations.textAnimSide;
-      // }
+      else if (isTextAnimSide) {
+        animationConfig = animations.textAnimSide;
+      }
       else if (isTextAnim) {
         animationConfig = animations.textAnim;
       }
-      // else if (isFadeUpAnim) {
-      //   animationConfig = animations.fadeUpAnim;
-      //   // 遅延させたい要素に.isDelayedを付与し、以下のコメントアウトを外す
-      //   // if (isDelayed) {
-      //   //   // 新しいオブジェクトを作成し、既存の設定と delay を追加
-      //   //   animationConfig.to = { ...animationConfig.to, delay: 1 };
-      //   // }
-      // }
+      else if (isFadeUpAnim) {
+        animationConfig = animations.fadeUpAnim;
+        // 遅延させたい要素に.isDelayedを付与し、以下のコメントアウトを外す
+        // if (isDelayed) {
+        //   // 新しいオブジェクトを作成し、既存の設定と delay を追加
+        //   animationConfig.to = { ...animationConfig.to, delay: 1 };
+        // }
+      }
       else {
         // デフォルトのアニメーション設定
         animationConfig = animations.textAnim;
@@ -334,8 +334,8 @@ const Home: NextPage = () => {
             <h2 className="c-title c-title--alt js-titleAnim">
               <span>PROFILE</span>
             </h2>
-            <div className="profile__info js-textAnim">
-              <div className="profile__info-content">
+            <div className="profile__info">
+              <div className="profile__info-content js-textAnim--side">
                 <p className="c-paragraph c-paragraph--alt">
                   <span className="heading">LANGUAGES</span>
                   HTML / SCSS / JavaScript / Typescript
@@ -349,7 +349,7 @@ const Home: NextPage = () => {
                   Figma / Photoshop / Adobe XD
                 </p>
               </div>
-              <div className="profile__info-image">
+              <div className="profile__info-image js-fadeUpAnim">
                 <Image
                   src="/img/image.webp"
                   width={160}
