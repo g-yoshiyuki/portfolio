@@ -107,7 +107,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         tweenInstance.kill();
       }
     };
-  }, [isMobile]);
+  }, []);
 
   return (
     <>
