@@ -1,45 +1,20 @@
 import type { NextPage } from "next";
+import Image from "next/image";
 import { useRef, useLayoutEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Hero from "../components/Hero";
+import {
+  servicesData,
+  servicesTextAnim,
+  worksTextAnim,
+} from "../constants/constants";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
 const Home: NextPage = () => {
-  const servicesData = [
-    {
-      title: "CODING",
-      iconSrc: "/img/coding.svg",
-      iconAlt: "CODING",
-      description:
-        "最新の技術を駆使し、表示速度・SEOに考慮したWebサイトを構築します。ECサイトを含む様々なWebプロジェクトに対応します。アプリ制作に関してもご相談ください。",
-    },
-    {
-      title: "DESIGN",
-      iconSrc: "/img/design.svg",
-      iconAlt: "DESIGN",
-      description:
-        "お客様の目的に沿ったデザインで、印象的なビジュアルを創り出します。ユーザーがわかりやすいサービスを目指し、WebサイトやアプリのUI設計を行います。",
-    },
-    {
-      title: "DIRECTION",
-      iconSrc: "/img/direction.svg",
-      iconAlt: "DIRECTION",
-      description:
-        "お客様のプロジェクトに深く関わり、適切な取材やリサーチをもとにサイト設計を行います。丁寧なヒアリングと分かりやすい言葉での説明を大切にしています。",
-    },
-  ];
-  const worksTextAnim = [
-    "WEB DESIGN - WEB DIRECTION - CODING - APPLICATION -",
-    "WEB DESIGN - WEB DIRECTION - CODING - APPLICATION -",
-    "WEB DESIGN - WEB DIRECTION - CODING - APPLICATION -",
-    "WEB DESIGN - WEB DIRECTION - CODING - APPLICATION -",
-  ];
-  const servicesTextAnim = ["FEATURED SERVICES", "FEATURED SERVICES"];
-
   type Selector = string;
   interface AnimationOptions {
     from: gsap.TweenVars;
@@ -233,9 +208,17 @@ const Home: NextPage = () => {
         </section>
 
         <div className="l-image">
-          <img
+          <Image
             src="/img/works-bg.webp"
+            width={2000}
+            height={1333}
             alt=""
+            sizes="100vw"
+            style={{
+              width: "100%",
+              height: "auto",
+            }}
+            quality={100}
             ref={parallaxImageRef}
             className="js-parallax"
             data-y="-12vw"
@@ -363,7 +346,19 @@ const Home: NextPage = () => {
                 </p>
               </div>
               <div className="profile__info-image js-fadeUpAnim">
-                <img src="/img/image.webp" alt="" />
+                {/* <img src="/img/image.webp" alt="" /> */}
+                <Image
+                  src="/img/image.webp"
+                  width={160}
+                  height={192.48}
+                  alt=""
+                  sizes="100vw"
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                  }}
+                  quality={100}
+                />
               </div>
             </div>
           </div>

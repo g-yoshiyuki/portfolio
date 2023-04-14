@@ -645,6 +645,11 @@ main {
     // height: 100%;
     object-fit: cover;
     object-position: center bottom;
+    @include s.lg-min {
+      // パララックスを導入することで、object-positionで画像の表示が正確に指定できないため、以下のpositionで調整している。
+      position: absolute;
+      bottom: -32vw;
+    }
   }
 }
 /* ----------------------- */

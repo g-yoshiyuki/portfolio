@@ -1,4 +1,5 @@
 import { useRef, useLayoutEffect } from "react";
+import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { useAnimationContext } from "../contexts/AnimationContext";
@@ -14,11 +15,9 @@ const Hero = () => {
 
   useLayoutEffect(() => {
     const parentTl = gsap.timeline();
-
     // useEffectはレンダリング後に実行されるので、useEffectの中に書くことで、useRefの取得が完了している
     const heroContent = heroContentRef.current;
     const heroImage = heroImageRef.current;
-
     // heroContentの中の.wordを取得。
     const words = gsap.utils.toArray(".word", heroContent) as Element[];
 
@@ -140,7 +139,18 @@ const Hero = () => {
             </span>
           </div>
           <div className="hero__image" ref={heroImageRef}>
-            <img src="/img/hero.webp" alt="" />
+            <Image
+              src="/img/hero.webp"
+              width={714}
+              height={474.18}
+              alt=""
+              sizes="100vw"
+              style={{
+                width: "100%",
+                height: "auto",
+              }}
+              quality={100}
+            />
           </div>
         </div>
       </div>
