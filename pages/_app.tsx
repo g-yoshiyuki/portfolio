@@ -37,6 +37,18 @@ function MyApp({ Component, pageProps }: AppProps) {
   });
 
   useLayoutEffect(() => {
+    if (isMobile) {
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.style.position = "static";
+        scrollContainerRef.current.style.overflow = "visible";
+      }
+      const viewport = document.getElementById("viewport");
+      if (viewport) {
+        viewport.style.position = "static";
+        viewport.style.overflow = "visible";
+      }
+      return;
+    }
     // モバイルデバイスの場合、スムーズスクロールを無効にする
     if (isMobile) return;
 

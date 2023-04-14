@@ -73,9 +73,9 @@
   height: 100%;
   width: 100%;
   overflow: hidden;
-  &.mobileDevice {
-    display: none!important;
-  }
+  // &.mobileDevice {
+  //   display: none!important;
+  // }
 }
 
 #scroll-container {
@@ -83,9 +83,9 @@
   width: 100%;
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
-  &.mobileDevice {
-    display: none!important;
-  }
+  // &.mobileDevice {
+  //   display: none!important;
+  // }
 }
 
 main {
@@ -775,8 +775,13 @@ main {
   background: s.$bg;
   padding: {
     top: math.div(120, 16) * 1rem;
-    bottom: math.div(120, 16) * 1rem;
+    bottom: math.div(180, 16) * 1rem;
   }
+  // @include s.sm {
+  //   padding: {
+  //     bottom: math.div(200, 16) * 1rem;
+  //   }
+  // }
   &__info {
     display: flex;
     align-items: center;
