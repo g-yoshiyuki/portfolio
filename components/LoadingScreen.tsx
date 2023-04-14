@@ -7,7 +7,6 @@ const LoadingScreen: React.FC = () => {
   const progressBarRef = useRef<HTMLDivElement>(null);
   const progressBarInnerRef = useRef<HTMLDivElement>(null);
   const { setAnimationFinished } = useAnimationContext();
-
   const loadingText = "LOADING".split("").map((char, index) => (
     <span key={index} className="char">
       {char}
@@ -86,5 +85,4 @@ const LoadingScreen: React.FC = () => {
     </div>
   );
 };
-
 export default LoadingScreen;

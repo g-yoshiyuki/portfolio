@@ -1,4 +1,3 @@
-// _app.tsx でインポートしているものを index.tsx や他のコンポーネントでインポートすることでパフォーマンスが悪化することはない。gsapなど使用するページファイルでもimportする。
 import type { AppProps } from "next/app";
 import "../styles/style.scss";
 import { useRef, useLayoutEffect } from "react";
@@ -11,15 +10,10 @@ import { Footer } from "../components/Footer";
 import Head from "next/head";
 import { DefaultSeo } from "next-seo";
 import { defaultSEO } from "../constants/next-seo.config";
-
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
-
-// 関数の実行を遅らせる debounce 関数を定義
-// 型を指定しているだけ
-// ()が2つあるのは、関数の型指定において、引数と戻り値の型をそれぞれ指定するための構文
-// 1つ目の()が引数で、2つ目が戻り値。
+// 関数の実行を遅らせるdebounce関数の型定義
 function debounce(
   func: (...args: any[]) => void,
   wait: number
@@ -33,7 +27,6 @@ function debounce(
 
 function MyApp({ Component, pageProps }: AppProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  // useEffectはレンダリング後に実行されるため、正確なページの高さを取得できる
   useLayoutEffect(() => {
     const container = scrollContainerRef.current;
     // body の高さを更新する関数
@@ -49,7 +42,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     // Y 値を更新する関数
     const updateYValue = () => {
       if (container && tweenInstance) {
-        // Y 値を更新
         tweenInstance.vars.y = -(
           container.clientHeight - document.documentElement.clientHeight
         );
@@ -63,7 +55,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     const handleResize = debounce(() => {
       updateBodyHeight();
       updateYValue(); // Y 値を更新
-      ScrollTrigger.refresh(); // スクロールトリガーをリフレッシュ
+      ScrollTrigger.refresh();
     }, 200);
     window.addEventListener("resize", handleResize);
 
@@ -82,22 +74,17 @@ function MyApp({ Component, pageProps }: AppProps) {
         ease: "none",
         scrollTrigger: {
           trigger: document.body,
-          // [vertical] [horizontal]
-          // つまり、startが左上、endが右下
-          // startプロパティとendプロパティに指定された値は、ビューポートを基準とする
           start: "top top",
           end: "bottom bottom",
           scrub: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
-            scrollTriggerInstance = self; // ScrollTrigger インスタンスを取得
+            scrollTriggerInstance = self;
           },
         },
       });
-      tweenInstance = tween; // Tween インスタンスを取得
+      tweenInstance = tween;
     }
-    // クリーンアップ関数
-    // アンマウントされる際に実行。リサイズイベントリスナー等を削除して、メモリリークを防ぐ役割。
     return () => {
       window.removeEventListener("resize", handleResize);
       if (scrollTriggerInstance) {

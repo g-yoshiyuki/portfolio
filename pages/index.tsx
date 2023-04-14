@@ -9,7 +9,6 @@ import {
   servicesTextAnim,
   worksTextAnim,
 } from "../constants/constants";
-
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
@@ -50,57 +49,59 @@ const Home: NextPage = () => {
     // スクロールトリガーの設定が同じ要素のアニメーション設定。まとめて取得
     const commonScrollTriggerElements: HTMLElement[] = [
       ...(gsap.utils.toArray(".js-textAnim") as HTMLElement[]),
-      ...(gsap.utils.toArray(".js-textAnim--side") as HTMLElement[]),
+      // ...(gsap.utils.toArray(".js-textAnim--side") as HTMLElement[]),
       ...(gsap.utils.toArray(".js-titleAnim span") as HTMLElement[]),
-      ...(gsap.utils.toArray(".js-fadeUpAnim") as HTMLElement[]),
+      // ...(gsap.utils.toArray(".js-fadeUpAnim") as HTMLElement[]),
     ];
-
-    // 各アニメーション設定
     const animations = {
       textAnim: {
         from: { opacity: 0, y: 30 },
         to: { opacity: 1, y: 0, duration: 1, ease: "power4.out" },
       },
-      textAnimSide: {
-        from: { opacity: 0, x: -20 },
-        to: { opacity: 1, x: 0, duration: 0.5, ease: "power4.out" },
-      },
+      // textAnimSide: {
+      //   from: { opacity: 0, x: -20 },
+      //   to: { opacity: 1, x: 0, duration: 0.5, ease: "power4.out" },
+      // },
       // GsapはclipPathプロパティをサポートしていないので、
       // cssで初期設定をつくっている。
       titleAnim: {
         from: {},
         to: { clipPath: "inset(0)" },
       },
-      fadeUpAnim: {
-        from: { opacity: 0, y: 30 },
-        to: { opacity: 1, y: 0, duration: 1, ease: "power2.out" },
-      },
+      // fadeUpAnim: {
+      //   from: { opacity: 0, y: 30 },
+      //   to: { opacity: 1, y: 0, duration: 1, ease: "power2.out" },
+      // },
     };
 
     // 条件分岐でelにアニメーション設定
     commonScrollTriggerElements.forEach((el) => {
       const isTitleAnim = el.parentElement?.classList.contains("js-titleAnim");
-      const isTextAnimSide = el.classList.contains("js-textAnim--side");
+      // const isTextAnimSide = el.classList.contains("js-textAnim--side");
       const isTextAnim = el.classList.contains("js-textAnim");
-      const isFadeUpAnim = el.classList.contains("js-fadeUpAnim");
-      const isDelayed = el.classList.contains("js-delayed");
+      // const isFadeUpAnim = el.classList.contains("js-fadeUpAnim");
+      // const isDelayed = el.classList.contains("js-delayed");
 
       let animationConfig;
 
       if (isTitleAnim) {
         animationConfig = animations.titleAnim;
-      } else if (isTextAnimSide) {
-        animationConfig = animations.textAnimSide;
-      } else if (isTextAnim) {
+      }
+      // else if (isTextAnimSide) {
+      //   animationConfig = animations.textAnimSide;
+      // }
+      else if (isTextAnim) {
         animationConfig = animations.textAnim;
-      } else if (isFadeUpAnim) {
-        animationConfig = animations.fadeUpAnim;
-        // 遅延させたい要素に.isDelayedを付与し、以下のコメントアウトを外す
-        // if (isDelayed) {
-        //   // 新しいオブジェクトを作成し、既存の設定と delay を追加
-        //   animationConfig.to = { ...animationConfig.to, delay: 1 };
-        // }
-      } else {
+      }
+      // else if (isFadeUpAnim) {
+      //   animationConfig = animations.fadeUpAnim;
+      //   // 遅延させたい要素に.isDelayedを付与し、以下のコメントアウトを外す
+      //   // if (isDelayed) {
+      //   //   // 新しいオブジェクトを作成し、既存の設定と delay を追加
+      //   //   animationConfig.to = { ...animationConfig.to, delay: 1 };
+      //   // }
+      // }
+      else {
         // デフォルトのアニメーション設定
         animationConfig = animations.textAnim;
       }

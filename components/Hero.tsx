@@ -3,7 +3,6 @@ import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { useAnimationContext } from "../contexts/AnimationContext";
-
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
@@ -15,12 +14,9 @@ const Hero = () => {
 
   useLayoutEffect(() => {
     const parentTl = gsap.timeline();
-    // useEffectはレンダリング後に実行されるので、useEffectの中に書くことで、useRefの取得が完了している
     const heroContent = heroContentRef.current;
     const heroImage = heroImageRef.current;
-    // heroContentの中の.wordを取得。
     const words = gsap.utils.toArray(".word", heroContent) as Element[];
-
     // ローディング画面が消えてから初期状態をつくるとアニメーションが成立しないため、以下で事前にセットしておく
     words.forEach((word) => {
       gsap.set(word, {
@@ -28,7 +24,6 @@ const Hero = () => {
         opacity: 0,
       });
     });
-    // heroImageの初期状態を透明にセット
     if (heroImage) {
       gsap.set(heroImage, {
         opacity: 0,
@@ -37,7 +32,6 @@ const Hero = () => {
     }
     const createChildTimeline = (element: Element) => {
       const elText = element.querySelector(".rect") as HTMLSpanElement;
-
       const tl = gsap.timeline();
       tl.to(element, {
         y: 0,
@@ -66,7 +60,6 @@ const Hero = () => {
       words.forEach((word, index) => {
         parentTl.add(createChildTimeline(word), index === 0 ? 0 : "-=90%");
       });
-      // parentTl開始から0.4秒遅らせる。
       parentTl.add(
         gsap.to(heroImage, {
           opacity: 1,
@@ -81,12 +74,11 @@ const Hero = () => {
           const title = heroContent.querySelector(
             ".hero__content-title"
           ) as HTMLElement;
-
           if (title) {
             title.style.borderBottom = "1px solid rgba(239, 239, 239, 0.2)";
           }
         }
-      }, parentTl.totalDuration() - 1); // タイムライン終了の0.7秒前に実行
+      }, parentTl.totalDuration() - 1); // タイムライン終了の1秒前に実行
     }
   }, [animationFinished]);
 
