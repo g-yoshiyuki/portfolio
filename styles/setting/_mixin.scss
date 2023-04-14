@@ -173,6 +173,14 @@
 	@content;
 }
 
+@mixin enable-overflow-scrolling() {
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+  // filterプラグインで未知のプロパティを処理する
+  @include filter(overflow-scrolling, touch);
+}
+
+
 // 例
 // 画面幅1024pxの時に10px。1440pxの時に14pxのfont-sizeになる。
 // html {

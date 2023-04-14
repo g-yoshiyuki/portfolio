@@ -109,8 +109,10 @@ const Home: NextPage = () => {
         ...animationConfig.to,
         scrollTrigger: {
           trigger: el,
-          start: window.innerWidth <= 768 ? "top 80%" : "top 70%",
-          end: window.innerWidth <= 768 ? "bottom 40%" : "bottom 30%",
+          // start: window.innerWidth <= 768 ? "top 80%" : "top 70%",
+          // end: window.innerWidth <= 768 ? "bottom 40%" : "bottom 30%",
+          start: "top 70%",
+          end: "bottom 30%",
         },
       });
     });
@@ -129,8 +131,8 @@ const Home: NextPage = () => {
             ...options.to,
             scrollTrigger: {
               trigger: element,
-              start: options.start || "top 80%",
-              end: options.end || "bottom 40%",
+              start: options.start || "top 70%",
+              end: options.end || "bottom 30%",
             },
           });
         });
@@ -331,8 +333,8 @@ const Home: NextPage = () => {
             <h2 className="c-title c-title--alt js-titleAnim">
               <span>PROFILE</span>
             </h2>
-            <div className="profile__info">
-              <div className="profile__info-content js-textAnim--side">
+            <div className="profile__info js-textAnim">
+              <div className="profile__info-content">
                 <p className="c-paragraph c-paragraph--alt">
                   <span className="heading">LANGUAGES</span>
                   HTML / SCSS / JavaScript / Typescript
@@ -346,8 +348,7 @@ const Home: NextPage = () => {
                   Figma / Photoshop / Adobe XD
                 </p>
               </div>
-              <div className="profile__info-image js-fadeUpAnim">
-                {/* <img src="/img/image.webp" alt="" /> */}
+              <div className="profile__info-image">
                 <Image
                   src="/img/image.webp"
                   width={160}

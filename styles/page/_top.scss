@@ -78,6 +78,8 @@
 #scroll-container {
   position: absolute;
   width: 100%;
+  -webkit-overflow-scrolling: touch;
+
 }
 
 main {
@@ -339,7 +341,10 @@ main {
     transition-property: clip-path;
   }
 }
-.js-titleAnim,.js-textAnim,.js-textAnim--side,.js-fadeUpAnim {
+.js-titleAnim,
+.js-textAnim,
+.js-textAnim--side,
+.js-fadeUpAnim {
   will-change: transform;
 }
 
