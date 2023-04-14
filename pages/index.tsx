@@ -222,6 +222,7 @@ const Home: NextPage = () => {
             ref={parallaxImageRef}
             className="js-parallax"
             data-y="-12vw"
+            loading="eager"
           />
         </div>
 
@@ -357,6 +358,7 @@ const Home: NextPage = () => {
                     width: "100%",
                     height: "auto",
                   }}
+                  loading="eager"
                   quality={100}
                 />
               </div>

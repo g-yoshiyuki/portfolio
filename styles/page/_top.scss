@@ -37,6 +37,9 @@
   }
 }
 .progressBar {
+  @include s.xs {
+    width: 140px;
+  }
   position: relative;
   width: 160px;
   // width: math.div(160, 16) * 1rem;
