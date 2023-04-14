@@ -27,14 +27,16 @@ function debounce(
 
 function MyApp({ Component, pageProps }: AppProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const currentWidth = useRef<number | null>(null);
+
+  // const currentWidth = useRef<number | null>(null);
 
   useLayoutEffect(() => {
     const container = scrollContainerRef.current;
+
     // 初回実行時に currentWidth を設定
-    if (currentWidth.current === null) {
-      currentWidth.current = window.innerWidth;
-    }
+    // if (currentWidth.current === null) {
+    //   currentWidth.current = window.innerWidth;
+    // }
 
     // body の高さを更新する関数
     const updateBodyHeight = () => {
@@ -59,29 +61,30 @@ function MyApp({ Component, pageProps }: AppProps) {
       }
     };
 
-    const update = () => {
+    // const update = () => {
+    //   updateBodyHeight();
+    //   updateYValue();
+    //   ScrollTrigger.refresh();
+    // };
+    // update();
+
+    // リサイズイベントの処理を debounce で最適化
+    const handleResize = debounce(() => {
       updateBodyHeight();
-      updateYValue();
+      updateYValue(); // Y 値を更新
       ScrollTrigger.refresh();
-    };
-    update(); // 初回実行時に update を呼び出す
+    }, 200);
+    window.addEventListener("resize", handleResize);
 
     // リサイズイベントの処理を debounce で最適化
     // const handleResize = debounce(() => {
-    //   updateBodyHeight();
-    //   updateYValue(); // Y 値を更新
-    //   ScrollTrigger.refresh();
+    //   if (currentWidth.current !== window.innerWidth) {
+    //     update();
+    //     currentWidth.current = window.innerWidth;
+    //   }
     // }, 200);
     // window.addEventListener("resize", handleResize);
-    // リサイズイベントの処理を debounce で最適化
-    const handleResize = debounce(() => {
-      if (currentWidth.current !== window.innerWidth) {
-        update();
-        currentWidth.current = window.innerWidth;
-      }
-    }, 200);
-    window.addEventListener("resize", handleResize);
-    
+
 
     if (container) {
       // 初回のbodyの高さを設定
