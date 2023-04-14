@@ -30,98 +30,98 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   // const currentWidth = useRef<number | null>(null);
 
-  useLayoutEffect(() => {
-    const container = scrollContainerRef.current;
+  // useLayoutEffect(() => {
+  //   const container = scrollContainerRef.current;
 
-    // 初回実行時に currentWidth を設定
-    // if (currentWidth.current === null) {
-    //   currentWidth.current = window.innerWidth;
-    // }
+  //   // 初回実行時に currentWidth を設定
+  //   // if (currentWidth.current === null) {
+  //   //   currentWidth.current = window.innerWidth;
+  //   // }
 
-    // body の高さを更新する関数
-    const updateBodyHeight = () => {
-      if (container) {
-        // ページコンテンツの高さをbodyのheightとして設定する
-        const height = container.clientHeight;
-        document.body.style.height = `${height}px`;
-      }
-    };
-    let scrollTriggerInstance: ScrollTrigger | undefined;
-    let tweenInstance: gsap.core.Tween | undefined;
-    // Y 値を更新する関数
-    const updateYValue = () => {
-      if (container && tweenInstance) {
-        tweenInstance.vars.y = -(
-          container.clientHeight - document.documentElement.clientHeight
-        );
-        // スクロールトリガーの更新を強制的に行う
-        if (scrollTriggerInstance) {
-          scrollTriggerInstance.update();
-        }
-      }
-    };
+  //   // body の高さを更新する関数
+  //   const updateBodyHeight = () => {
+  //     if (container) {
+  //       // ページコンテンツの高さをbodyのheightとして設定する
+  //       const height = container.clientHeight;
+  //       document.body.style.height = `${height}px`;
+  //     }
+  //   };
+  //   let scrollTriggerInstance: ScrollTrigger | undefined;
+  //   let tweenInstance: gsap.core.Tween | undefined;
+  //   // Y 値を更新する関数
+  //   const updateYValue = () => {
+  //     if (container && tweenInstance) {
+  //       tweenInstance.vars.y = -(
+  //         container.clientHeight - document.documentElement.clientHeight
+  //       );
+  //       // スクロールトリガーの更新を強制的に行う
+  //       if (scrollTriggerInstance) {
+  //         scrollTriggerInstance.update();
+  //       }
+  //     }
+  //   };
 
-    // const update = () => {
-    //   updateBodyHeight();
-    //   updateYValue();
-    //   ScrollTrigger.refresh();
-    // };
-    // update();
+  //   // const update = () => {
+  //   //   updateBodyHeight();
+  //   //   updateYValue();
+  //   //   ScrollTrigger.refresh();
+  //   // };
+  //   // update();
 
-    // リサイズイベントの処理を debounce で最適化
-    const handleResize = debounce(() => {
-      updateBodyHeight();
-      updateYValue(); // Y 値を更新
-      ScrollTrigger.refresh();
-    }, 200);
-    window.addEventListener("resize", handleResize);
+  //   // リサイズイベントの処理を debounce で最適化
+  //   const handleResize = debounce(() => {
+  //     updateBodyHeight();
+  //     updateYValue(); // Y 値を更新
+  //     ScrollTrigger.refresh();
+  //   }, 200);
+  //   window.addEventListener("resize", handleResize);
 
-    // リサイズイベントの処理を debounce で最適化
-    // const handleResize = debounce(() => {
-    //   if (currentWidth.current !== window.innerWidth) {
-    //     update();
-    //     currentWidth.current = window.innerWidth;
-    //   }
-    // }, 200);
-    // window.addEventListener("resize", handleResize);
+  //   // リサイズイベントの処理を debounce で最適化
+  //   // const handleResize = debounce(() => {
+  //   //   if (currentWidth.current !== window.innerWidth) {
+  //   //     update();
+  //   //     currentWidth.current = window.innerWidth;
+  //   //   }
+  //   // }, 200);
+  //   // window.addEventListener("resize", handleResize);
 
 
-    if (container) {
-      // 初回のbodyの高さを設定
-      // updateBodyHeightを実行するだけでは、正確な高さを取得出来ずページ下部が少し切れてしまう。
-      // handleResize()を実行することで正確に動作した。
-      // updateBodyHeight();
-      handleResize();
+  //   if (container) {
+  //     // 初回のbodyの高さを設定
+  //     // updateBodyHeightを実行するだけでは、正確な高さを取得出来ずページ下部が少し切れてしまう。
+  //     // handleResize()を実行することで正確に動作した。
+  //     // updateBodyHeight();
+  //     handleResize();
 
-      // スムーズスクロールのアニメーションを設定
-      // document.documentElement.clientHeight = ビューポートの高さ
-      // ページの高さからビューポートの高さを引いた値分、移動する。
-      const tween = gsap.to(container, {
-        y: -(container.clientHeight - document.documentElement.clientHeight),
-        ease: "none",
-        scrollTrigger: {
-          trigger: document.body,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 1,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            scrollTriggerInstance = self;
-          },
-        },
-      });
-      tweenInstance = tween;
-    }
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      if (scrollTriggerInstance) {
-        scrollTriggerInstance.kill();
-      }
-      if (tweenInstance) {
-        tweenInstance.kill();
-      }
-    };
-  }, []);
+  //     // スムーズスクロールのアニメーションを設定
+  //     // document.documentElement.clientHeight = ビューポートの高さ
+  //     // ページの高さからビューポートの高さを引いた値分、移動する。
+  //     const tween = gsap.to(container, {
+  //       y: -(container.clientHeight - document.documentElement.clientHeight),
+  //       ease: "none",
+  //       scrollTrigger: {
+  //         trigger: document.body,
+  //         start: "top top",
+  //         end: "bottom bottom",
+  //         scrub: 1,
+  //         invalidateOnRefresh: true,
+  //         onUpdate: (self) => {
+  //           scrollTriggerInstance = self;
+  //         },
+  //       },
+  //     });
+  //     tweenInstance = tween;
+  //   }
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //     if (scrollTriggerInstance) {
+  //       scrollTriggerInstance.kill();
+  //     }
+  //     if (tweenInstance) {
+  //       tweenInstance.kill();
+  //     }
+  //   };
+  // }, []);
 
   return (
     <>
@@ -135,12 +135,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         <DefaultSeo {...defaultSEO} />
         <LoadingScreen />
         <Header />
-        <div id="viewport">
-          <div id="scroll-container" ref={scrollContainerRef}>
+        {/* <div id="viewport">
+          <div id="scroll-container" ref={scrollContainerRef}> */}
             <Component {...pageProps} />
             <Footer />
-          </div>
-        </div>
+          {/* </div>
+        </div> */}
       </AnimationProvider>
     </>
   );
