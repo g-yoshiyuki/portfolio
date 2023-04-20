@@ -315,7 +315,7 @@ const Home: NextPage = () => {
               </p>
               <div className="l-button">
                 <a
-                  href="https://goubarayoshiyuki.com/"
+                  href="https://private.goubarayoshiyuki.com/"
                   target="_blank"
                   rel="noopener"
                   className="c-button c-button--l"
