@@ -123,10 +123,10 @@ const Hero = () => {
               Contact:&nbsp;
               <br className="break-pc" />
               <a
-                href="mailto:goubarayoshiyuki@gmail.com"
+                href="mailto:yoshiyukigoubara@gmail.com"
                 className="text-link label"
               >
-                goubarayoshiyuki@gmail.com
+                yoshiyukigoubara@gmail.com
               </a>
             </span>
           </div>
