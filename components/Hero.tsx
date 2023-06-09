@@ -17,6 +17,7 @@ const Hero = () => {
     const heroContent = heroContentRef.current;
     const heroImage = heroImageRef.current;
     const words = gsap.utils.toArray(".word", heroContent) as Element[];
+
     // ローディング画面が消えてから初期状態をつくるとアニメーションが成立しないため、以下で事前にセットしておく
     words.forEach((word) => {
       gsap.set(word, {
@@ -120,7 +121,7 @@ const Hero = () => {
 
             <span className="word subText subText--alt">
               <span className="rect"></span>
-              Contact:&nbsp;
+              CONTACT :&nbsp;
               <br className="break-pc" />
               <a
                 href="mailto:yoshiyukigoubara@gmail.com"

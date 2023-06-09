@@ -4,11 +4,8 @@ import { useRef, useLayoutEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Hero from "../components/Hero";
-import {
-  servicesData,
-  servicesTextAnim,
-  worksTextAnim,
-} from "../constants/constants";
+import { skillsData, skillsTextAnim } from "../constants/constants";
+import Slider from "../components/Slider";
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
@@ -55,11 +52,14 @@ const Home: NextPage = () => {
     ];
     const animations = {
       textAnim: {
-        from: { opacity: 0, y: 30 },
+        // from: { opacity: 0, y: 30 },
+        from: { opacity: 0, y: 50 },
         to: { opacity: 1, y: 0, duration: 1, ease: "power4.out" },
       },
       textAnimSide: {
-        from: { opacity: 0, x: -30 },
+        // from: { opacity: 0, x: -30 },
+        from: { opacity: 0, x: -50 },
+        // to: { opacity: 1, x: 0, duration: 1, ease: "power2.out" },
         to: { opacity: 1, x: 0, duration: 1, ease: "power2.out" },
       },
       // GsapはclipPathプロパティをサポートしていないので、
@@ -80,28 +80,25 @@ const Home: NextPage = () => {
       const isTextAnimSide = el.classList.contains("js-textAnim--side");
       const isTextAnim = el.classList.contains("js-textAnim");
       const isFadeUpAnim = el.classList.contains("js-fadeUpAnim");
+      const isFast = el.classList.contains("js-fast"); //表示を早くしたい要素
       // const isDelayed = el.classList.contains("js-delayed");
 
       let animationConfig;
 
       if (isTitleAnim) {
         animationConfig = animations.titleAnim;
-      }
-      else if (isTextAnimSide) {
+      } else if (isTextAnimSide) {
         animationConfig = animations.textAnimSide;
-      }
-      else if (isTextAnim) {
+      } else if (isTextAnim) {
         animationConfig = animations.textAnim;
-      }
-      else if (isFadeUpAnim) {
+      } else if (isFadeUpAnim) {
         animationConfig = animations.fadeUpAnim;
         // 遅延させたい要素に.isDelayedを付与し、以下のコメントアウトを外す
         // if (isDelayed) {
         //   // 新しいオブジェクトを作成し、既存の設定と delay を追加
         //   animationConfig.to = { ...animationConfig.to, delay: 1 };
         // }
-      }
-      else {
+      } else {
         // デフォルトのアニメーション設定
         animationConfig = animations.textAnim;
       }
@@ -112,8 +109,12 @@ const Home: NextPage = () => {
           trigger: el,
           // start: window.innerWidth <= 768 ? "top 80%" : "top 70%",
           // end: window.innerWidth <= 768 ? "bottom 40%" : "bottom 30%",
-          start: "top 70%",
-          end: "bottom 30%",
+
+          // start: "top 70%",
+          // end: "bottom 30%",
+
+          start: isFast ? "top 90%" : "top 70%", // 条件追加
+          end: isFast ? "bottom 40%" : "bottom 30%", // 条件追加
         },
       });
     });
@@ -149,41 +150,93 @@ const Home: NextPage = () => {
         });
       }
     }
+    // スキルを時間差で表示させる
     const fadeUpAnimOptions = {
-      from: { opacity: 0, y: 40 },
-      to: { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" },
+      // from: { opacity: 0, y: 40 },
+      from: { opacity: 0, y: 50 },
+      // to: { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" },
+      to: { opacity: 1, y: 0, duration: 1, ease: "power4.out" },
       stagger: 0.1,
     };
     staggeredFadeUpAnim(".js-staggeredFadeUpAnim", fadeUpAnimOptions);
   }, []);
 
+  // WORKSスライダー要素
+  const items = [
+    { id: 1, content: "Slide 1" },
+    { id: 2, content: "Slide 2" },
+    { id: 3, content: "Slide 3" },
+  ];
+
   return (
     <>
       <main>
         <Hero />
+        <aside className="l-services">
+          <div className="services">
+            <div className="container">
+              <div className="flexWrap js-textAnim js-fast">
+                <div className="services__title">
+                  <h2 className="c-title--aside js-titleAnim js-fast">
+                    <span className="en">MY SERVICES</span>
+                    <br />
+                    <span className="ja">お仕事、承ります</span>
+                  </h2>
+                </div>
+                <ul className="services__list">
+                  <li className="services__list-item js-fadeUpAnim js-fast">
+                    <a
+                      // href="#"
+                      className="services__list-link"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      <span className="services__list-number">
+                        <span>01</span>
+                      </span>
+                      <h3 className="services__list-title">
+                        <span className="en">WEBSITE CREATION</span>
+                        <div className="wrap">
+                          <span className="ja">WEBサイト制作</span>
+                        </div>
+                      </h3>
+                      <span className="services__list-icon">
+                        <span>
+                          <img src="/img/arrow.svg?111" />
+                        </span>
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </aside>
         <section className="introduction bg-gray">
           <div className="container container--s">
             <p className="introduction__heading js-textAnim">
-              こんにちは 郷原 芳幸です。
+              はじめまして 郷原 芳幸です。
             </p>
             <p className="introduction__text js-textAnim">
-              Web制作に特化したフリーランスのデザイナー兼ディレクターです。Web制作会社でデザイン、構築、ディレクションを経験いたしました。
+              Web制作に特化したフリーランスのデザイナー兼ディレクターです。Web制作会社でディレクション、デザイン、コーディングを経験いたしました。
             </p>
             <p className="introduction__text js-textAnim">
-              お客様との距離をより近くし、パーソナライズされたサービスをワンストップで提供することを目指し、現在はフリーランスとして活動しています。
-              <br />
-              プライベートではアプリ開発に取り組んでおり、新しい技術やトレンドにも常にアンテナを張り、お客様に最適なソリューションを提案できるように努めています。
+              全工程を一貫して担当し、納品する経験を通じて、お客様との深い関わりとその成果物に対する充実感を感じることができました。この体験がフリーランスとして独立するきっかけとなり、現在はお客様との距離をより近くし、パーソナライズされたサービスを提供しています。
+              {/* お客様との距離をより近くし、パーソナライズされたサービスをワンストップで提供することを目指し、現在はフリーランスとして活動しています。 */}
+            </p>
+            <p className="introduction__text js-textAnim">
+              プライベートではアプリ開発に取り組んでおり、新しい技術やトレンドにも常にアンテナを張り、お客様に最適なソリューションを提案できる体制を整えています。
             </p>
             <p className="introduction__text js-textAnim">
               お客様が抱える課題に対して最善の解決策を見つけ出すために、ヒアリングを大切にし、真摯にかつ柔軟に対応いたします。Webサイトに関することはお気軽にご相談ください。
             </p>
           </div>
         </section>
-        <section className="services">
+        <section className="skills">
           <div className="textAnim">
             {Array.from({ length: 2 }, (_, ulIndex) => (
               <ul key={ulIndex}>
-                {servicesTextAnim.map((item, liIndex) => (
+                {skillsTextAnim.map((item, liIndex) => (
                   <li key={`${ulIndex}-${liIndex}`}>{item}</li>
                 ))}
               </ul>
@@ -191,22 +244,55 @@ const Home: NextPage = () => {
           </div>
           <div className="container">
             <h2 className="c-title c-title--alt js-titleAnim">
-              <span>SERVICES</span>
+              <span>SKILLS</span>
             </h2>
-            <ul className="services__list">
-              {servicesData.map((service, index) => (
+            <p className="c-heading c-heading--alt js-textAnim">
+              取材からデザイン、コーディングまで
+              <span className="ib">全工程を担当いたします。</span>
+              <br />
+              それぞれのステージで得られた洞察が
+              <span className="ib">他のステージに活かされ、</span>
+              <br />
+              最終的な成果物のクオリティを高めます。
+            </p>
+            <ul className="skills__list">
+              {skillsData.map((skill, index) => (
                 <li
-                  className="services__list-item js-staggeredFadeUpAnim"
+                  className="skills__list-item js-staggeredFadeUpAnim"
                   key={index}
                 >
-                  <h3 className="c-title--accent">- {service.title} -</h3>
-                  <div className="services__list-icon">
-                    <img src={service.iconSrc} alt={service.iconAlt} />
+                  <h3 className="c-title--accent">- {skill.title} -</h3>
+                  <div className="skills__list-icon">
+                    <img src={skill.iconSrc} alt={skill.iconAlt} />
                   </div>
-                  <p className="c-text c-text--alt">{service.description}</p>
+                  <p className="c-text c-text--alt">{skill.description}</p>
                 </li>
               ))}
             </ul>
+          </div>
+        </section>
+        <section className="works">
+          <div className="container">
+            <h2 className="c-title c-title--alt js-titleAnim">
+              <span>WORKS</span>
+            </h2>
+            <p className="c-heading c-heading--alt js-textAnim">
+              フリーランス制作実績
+            </p>
+            <div className="js-textAnim" style={{ position: 'relative' }}>
+              <Slider />
+            </div>
+            <div className="l-button js-textAnim js-fast">
+              <a
+                href="javascript:void(0)"
+                className="c-button c-button--l"
+              >
+                <span className="c-button__text">
+                  <span>VIEW ALL</span>
+                  <span>VIEW ALL</span>
+                </span>
+              </a>
+            </div>
           </div>
         </section>
 
@@ -239,8 +325,7 @@ const Home: NextPage = () => {
                 <dt className="history__list-dt">2020/10</dt>
                 <dd className="history__list-dd">
                   <p className="c-paragraph">
-                    株式会社クラウドシードに正社員として入社
-                    <br />
+                    <span className="heading">株式会社クラウドシードに正社員として入社</span>
                     ディレクション、サイト設計、デザイン、コーディングを担当
                   </p>
                   <p className="c-paragraph">
@@ -281,8 +366,7 @@ const Home: NextPage = () => {
                 <dt className="history__list-dt">2021/11</dt>
                 <dd className="history__list-dd">
                   <p className="c-paragraph">
-                    DISM株式会社に正社員として入社
-                    <br />
+                    <span className="heading">DISM株式会社に正社員として入社</span>
                     デザイン、コーディング業務を担当
                   </p>
                   <p className="c-paragraph">
@@ -296,9 +380,27 @@ const Home: NextPage = () => {
                 </dd>
               </dl>
             </div>
+            <div className="js-textAnim history__link">
+              <p className="history__link-heading">
+                <span>会社での制作実績はこちら</span>
+              </p>
+              <div className="l-button">
+                <a
+                  href="https://private.goubarayoshiyuki.com/"
+                  target="_blank"
+                  rel="noopener"
+                  className="c-button c-button--l c-button--alt"
+                >
+                  <span className="c-button__text">
+                    <span>COMPANY WORKS</span>
+                    <span>COMPANY WORKS</span>
+                  </span>
+                </a>
+              </div>
+            </div>
           </div>
         </section>
-        <div className="works">
+        {/* <div className="privateWorks">
           <div className="textAnim textAnim--accent">
             {Array.from({ length: 2 }, (_, ulIndex) => (
               <ul key={ulIndex}>
@@ -310,8 +412,8 @@ const Home: NextPage = () => {
           </div>
           <div className="container">
             <div className="js-textAnim">
-              <p className="works__heading">
-                <span>実務の制作実績はこちら</span>
+              <p className="privateWorks__heading">
+                <span>過去の制作実績はこちら</span>
               </p>
               <div className="l-button">
                 <a
@@ -321,14 +423,14 @@ const Home: NextPage = () => {
                   className="c-button c-button--l"
                 >
                   <span className="c-button__text">
-                    <span>WORKS</span>
-                    <span>WORKS</span>
+                    <span>PRIVATE WORKS</span>
+                    <span>PRIVATE WORKS</span>
                   </span>
                 </a>
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         <section className="profile">
           <div className="container container--s">
             <h2 className="c-title c-title--alt js-titleAnim">
@@ -349,11 +451,11 @@ const Home: NextPage = () => {
                   Figma / Photoshop / Adobe XD
                 </p>
               </div>
-              <div className="profile__info-image js-fadeUpAnim">
+              <div className="profile__info-image js-textAnim">
                 <Image
-                  src="/img/image.webp"
-                  width={160}
-                  height={192.48}
+                  src="/img/image.webp?111"
+                  width={176}
+                  height={223.52}
                   alt=""
                   sizes="100vw"
                   style={{
