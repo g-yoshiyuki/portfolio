@@ -1,10 +1,16 @@
 import { useAnimationContext } from "../contexts/AnimationContext";
-import { useRef, useLayoutEffect } from "react";
+import { useRef, useLayoutEffect, useEffect } from "react";
 import { gsap } from "gsap";
+
+function isSafari() {
+  if (typeof window === "undefined") return false;
+  const ua = window.navigator.userAgent.toLowerCase();
+  return ua.indexOf("safari") !== -1 && ua.indexOf("chrome") === -1;
+}
 
 export const Header = () => {
   const { animationFinished } = useAnimationContext();
-  const headerRef = useRef(null);
+  const headerRef = useRef<HTMLHeadingElement | null>(null);
 
   // ローディング完了後にheaderをおろす
   useLayoutEffect(() => {
@@ -18,69 +24,97 @@ export const Header = () => {
         gsap.to(header, {
           opacity: 1,
           y: 0,
-          duration: .5,
-          delay: .7,
+          duration: 0.5,
+          delay: 0.7,
           ease: "power2.out",
+          onStart: function () {
+            gsap.set(header, { willChange: "opacity, transform" });
+          },
+          onComplete: function () {
+            if (!isSafari()) {
+              gsap.set(header, { willChange: "auto" });
+            }
+          },
         });
       }
     }
   }, [animationFinished]);
 
-
   // 以下headerのスクロールアニメーション。上にスクロールした時にheaderをおろす。
   // requestAnimationFrameは、画面描画のタイミングで処理が実行されるためスクロールイベントよりもリソースの無駄遣いを防ぐことができる。
   // script.jsが読み込まれると、この無名関数がすぐに実行され、スクロールイベントリスナーが設定される。
-  let update: () => void;
-  if (typeof window !== "undefined") {
-    const header = document.querySelector(".header");
-    let lastScrollPosition = window.pageYOffset;
-    let ticking = false;
-    update = function () {
-      const currentScrollPosition = window.pageYOffset;
-      if (header) {
-        // headerがnullでないことを確認
-        if (currentScrollPosition < lastScrollPosition) {
-          header.classList.remove("scroll-header-hidden");
-        } else {
-          header.classList.add("scroll-header-hidden");
+  // let update: () => void;
+  // if (typeof window !== "undefined") {
+  //   const header = document.querySelector(".header");
+  //   let lastScrollPosition = window.pageYOffset;
+  //   let ticking = false;
+  //   update = function () {
+  //     const currentScrollPosition = window.pageYOffset;
+  //     if (header) {
+  //       // headerがnullでないことを確認
+  //       if (currentScrollPosition < lastScrollPosition) {
+  //         header.classList.remove("scroll-header-hidden");
+  //       } else {
+  //         header.classList.add("scroll-header-hidden");
+  //       }
+  //     }
+  //     lastScrollPosition = currentScrollPosition;
+  //     ticking = false;
+  //   };
+  //   // スクロールイベントが高速で連続して発生する場合、requestAnimationFrameがすでに実行中であっても、新しいイベントが発生する可能性がある。tickingフラグを使って、requestAnimationFrameが実行中でない場合に限り、update関数が実行されるようにしている。
+  //   window.addEventListener("scroll", () => {
+  //     if (!ticking) {
+  //       window.requestAnimationFrame(() => {
+  //         update();
+  //         ticking = false;
+  //       });
+  //       ticking = true;
+  //     }
+  //   });
+  // }
+
+  // 以下headerのスクロールアニメーション。上にスクロールした時にheaderをおろす。
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      let lastScrollPosition = window.scrollY;
+      let ticking = false;
+      const update = () => {
+        const currentScrollPosition = window.scrollY;
+        if (headerRef.current) {
+          // Safariの「オーバースクロール」対策。
+          // スクロール位置がゼロ以下になったときにもヘッダーを表示する。
+          if (
+            currentScrollPosition <= 0 ||
+            currentScrollPosition < lastScrollPosition
+          ) {
+            headerRef.current.classList.remove("scroll-header-hidden");
+          } else {
+            headerRef.current.classList.add("scroll-header-hidden");
+          }
         }
-      }
-      lastScrollPosition = currentScrollPosition;
-      ticking = false;
-    };
-    // スクロールイベントが高速で連続して発生する場合、requestAnimationFrameがすでに実行中であっても、新しいイベントが発生する可能性がある。tickingフラグを使って、requestAnimationFrameが実行中でない場合に限り、update関数が実行されるようにしている。
-    window.addEventListener("scroll", () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          update();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    });
-  }
+        lastScrollPosition = currentScrollPosition;
+        ticking = false;
+      };
+      // スクロールイベントが高速で連続して発生する場合、requestAnimationFrameがすでに実行中であっても、新しいイベントが発生する可能性がある。tickingフラグを使って、requestAnimationFrameが実行中でない場合に限り、update関数が実行されるようにしている。
+      window.addEventListener("scroll", () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            update();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+
+      return () => {
+        // コンポーネントのアンマウント時にイベントリスナーを削除
+        window.removeEventListener("scroll", update);
+      };
+    }
+  }, []);
 
   return (
     <>
-      {/* <header className="header">
-        <div className="container container--l">
-          <div className="header__logo">Goubara Yoshiyuki</div>
-          <nav className="header__nav">
-            <ul className="header__nav-list">
-              <li className="header__nav-item">
-                <a
-                  href="https://goubarayoshiyuki.com/"
-                  target="_blank"
-                  rel="noopener"
-                  className="c-button"
-                >
-                  WORKS
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </header> */}
       <header className="header" ref={headerRef}>
         <div className="container">
           <nav className="header__nav">

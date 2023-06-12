@@ -6,8 +6,22 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Hero from "../components/Hero";
 import { skillsData, skillsTextAnim } from "../constants/constants";
 import Slider from "../components/Slider";
+import WorksBackground from "../components/WorksBackground";
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
+}
+
+// gsapアニメーションはcssでwill-changeを指定するのではなく、
+// onStartとonCompleteで指定する。
+// cssだと読み込みが間に合っていない可能性があるし、完了後にwill-changeを削除できない。
+
+// ※通常、onCompleteでwillChangeをautoにするのが理想だが、Safariのみ、解除するとガクつきが起こる。
+// 以下のSafari判定でSafariの時はautoにしないようにする。
+// Safariを判定する関数を追加
+function isSafari() {
+  if (typeof window === "undefined") return false;
+  const ua = window.navigator.userAgent.toLowerCase();
+  return ua.indexOf("safari") !== -1 && ua.indexOf("chrome") === -1;
 }
 
 const Home: NextPage = () => {
@@ -19,7 +33,6 @@ const Home: NextPage = () => {
     start?: string;
     end?: string;
   }
-
   const parallaxImageRef = useRef<HTMLImageElement>(null);
   // 画像パララックス
   useLayoutEffect(() => {
@@ -28,7 +41,6 @@ const Home: NextPage = () => {
       (wrap: HTMLElement) => {
         // data-yに指定した数値だけ縦方向に動かす。指定していなければ-100が採用される。
         const y = wrap.getAttribute("data-y") || -100;
-
         gsap.to(wrap, {
           y: y,
           scrollTrigger: {
@@ -37,88 +49,147 @@ const Home: NextPage = () => {
             end: "bottom top",
             // 画像が動くスピード。おおきくなるほどゆっくり
             scrub: 3,
-            //markers: true
+          },
+          onStart: () => {
+            wrap.style.willChange = "transform";
+            return;
+          },
+          onComplete: () => {
+            if (!isSafari()) {
+              wrap.style.willChange = "auto";
+            }
+            return;
           },
         });
       }
     );
-
     // スクロールトリガーの設定が同じ要素のアニメーション設定。まとめて取得
     const commonScrollTriggerElements: HTMLElement[] = [
       ...(gsap.utils.toArray(".js-textAnim") as HTMLElement[]),
       ...(gsap.utils.toArray(".js-textAnim--side") as HTMLElement[]),
       ...(gsap.utils.toArray(".js-titleAnim span") as HTMLElement[]),
-      ...(gsap.utils.toArray(".js-fadeUpAnim") as HTMLElement[]),
     ];
     const animations = {
       textAnim: {
-        // from: { opacity: 0, y: 30 },
-        from: { opacity: 0, y: 50 },
-        to: { opacity: 1, y: 0, duration: 1, ease: "power4.out" },
+        from: { opacity: 0, y: 60 },
+        to: { opacity: 1, y: 0, duration: 0.8, ease: "power4.out" },
       },
       textAnimSide: {
-        // from: { opacity: 0, x: -30 },
-        from: { opacity: 0, x: -50 },
-        // to: { opacity: 1, x: 0, duration: 1, ease: "power2.out" },
-        to: { opacity: 1, x: 0, duration: 1, ease: "power2.out" },
+        from: { opacity: 0, x: -60 },
+        to: { opacity: 1, x: 0, duration: 0.8, ease: "power4.out" },
       },
-      // GsapはclipPathプロパティをサポートしていないので、
-      // cssで初期設定をつくっている。
+      // GsapはclipPathプロパティをサポートしていないので、cssで初期設定をつくっている。
       titleAnim: {
         from: {},
         to: { clipPath: "inset(0)" },
       },
-      fadeUpAnim: {
-        from: { opacity: 0, y: 30 },
-        to: { opacity: 1, y: 0, duration: 1, ease: "power2.out" },
-      },
     };
-
     // 条件分岐でelにアニメーション設定
     commonScrollTriggerElements.forEach((el) => {
+      const isTextAnim = el.classList.contains("js-textAnim");
       const isTitleAnim = el.parentElement?.classList.contains("js-titleAnim");
       const isTextAnimSide = el.classList.contains("js-textAnim--side");
-      const isTextAnim = el.classList.contains("js-textAnim");
-      const isFadeUpAnim = el.classList.contains("js-fadeUpAnim");
       const isFast = el.classList.contains("js-fast"); //表示を早くしたい要素
-      // const isDelayed = el.classList.contains("js-delayed");
-
       let animationConfig;
 
       if (isTitleAnim) {
         animationConfig = animations.titleAnim;
-      } else if (isTextAnimSide) {
-        animationConfig = animations.textAnimSide;
       } else if (isTextAnim) {
         animationConfig = animations.textAnim;
-      } else if (isFadeUpAnim) {
-        animationConfig = animations.fadeUpAnim;
-        // 遅延させたい要素に.isDelayedを付与し、以下のコメントアウトを外す
-        // if (isDelayed) {
-        //   // 新しいオブジェクトを作成し、既存の設定と delay を追加
-        //   animationConfig.to = { ...animationConfig.to, delay: 1 };
-        // }
+      } else if (isTextAnimSide) {
+        animationConfig = animations.textAnimSide;
       } else {
-        // デフォルトのアニメーション設定
         animationConfig = animations.textAnim;
       }
-
       gsap.fromTo(el, animationConfig.from, {
         ...animationConfig.to,
         scrollTrigger: {
           trigger: el,
           // start: window.innerWidth <= 768 ? "top 80%" : "top 70%",
           // end: window.innerWidth <= 768 ? "bottom 40%" : "bottom 30%",
-
-          // start: "top 70%",
-          // end: "bottom 30%",
-
-          start: isFast ? "top 90%" : "top 70%", // 条件追加
-          end: isFast ? "bottom 40%" : "bottom 30%", // 条件追加
+          start: isFast ? "top 90%" : "top 70%",
+          end: isFast ? "bottom 40%" : "bottom 30%",
+        },
+        onStart: () => {
+          el.style.willChange = "transform, opacity, clip-path";
+          return;
+        },
+        onComplete: () => {
+          if (!isSafari()) {
+            el.style.willChange = "auto";
+          }
+          return;
         },
       });
     });
+    // SKILLSセクションの背景色を変更するアニメーション
+    gsap.to(".skills", {
+      scrollTrigger: {
+        trigger: ".skills",
+        start: "top 48%",
+        onEnter: () => {
+          const skillsElements = Array.from(
+            document.querySelectorAll(
+              ".skills, .skills .textAnim li, .skills .c-title span, .skills .c-heading"
+            )
+          ) as HTMLElement[];
+          skillsElements.forEach(
+            (el) => (el.style.willChange = "background-color, color")
+          );
 
+          gsap.to(".skills", { backgroundColor: "#222", duration: 0.5 });
+          gsap.to(".skills .textAnim li", { color: "#323232", duration: 0.5 });
+          gsap.to(".skills .c-title span", { color: "#E7FAEC", duration: 0.5 });
+          gsap.to(".skills .c-heading", { color: "#efefef", duration: 0.5 });
+          // gsap.to(".skills .c-title--accent", {color: '#efefef', duration: .4});
+          // gsap.to(".skills .c-text--alt", {color: '#efefef', duration: .4});
+          // gsap.to(".skills__list-item", {borderColor: '#C3EED7',backgroundColor: '#323232', duration: .4});
+
+          gsap.to(
+            {},
+            {
+              duration: 0.1,
+              onComplete: () =>
+                skillsElements.forEach((el) => {
+                  if (!isSafari()) {
+                    el.style.willChange = "auto";
+                  }
+                }),
+              delay: 0.5,
+            }
+          );
+        },
+      },
+    });
+    // WORKSセクションの背景を変更するアニメーション
+    gsap.to(".works", {
+      scrollTrigger: {
+        trigger: ".works",
+        start: "top 40%",
+        onEnter: () => {
+          const worksBg = document.querySelector(
+            ".worksBackground"
+          ) as HTMLElement;
+          if (worksBg) {
+            worksBg.style.willChange = "opacity";
+            gsap.to(".worksBackground", { opacity: 1, duration: 0.5 });
+
+            gsap.to(
+              {},
+              {
+                duration: 0.1,
+                onComplete: () => {
+                  if (!isSafari()) {
+                    worksBg.style.willChange = "auto";
+                  }
+                },
+                delay: 0.5,
+              }
+            );
+          }
+        },
+      },
+    });
     // staggerを使用するアニメーショングループを生成する関数
     // staggerを使用するには、ひとつのfromToにまとめる必要があるため別途で作成する。
     function staggeredFadeUpAnim(
@@ -126,47 +197,49 @@ const Home: NextPage = () => {
       options: AnimationOptions
     ) {
       const elements = gsap.utils.toArray(selector) as HTMLElement[];
-      // スマホ時にサービスリストが縦並びになったらstaggerを解除する
-      if (window.innerWidth <= 640) {
-        elements.forEach((element) => {
-          gsap.fromTo(element, options.from, {
-            ...options.to,
+      elements.forEach((element) => {
+        element.style.willChange = "opacity, transform";
+        const modifiedOptions = {
+          ...options,
+          onStart: () => (element.style.willChange = "opacity, transform"),
+          onComplete: () => {
+            if (!isSafari()) {
+              // Safari の場合は willChange を自動に設定しない
+              element.style.willChange = "auto";
+            }
+          },
+        };
+        // スマホ時にサービスリストが縦並びになったらstaggerを解除する
+        if (window.innerWidth <= 640) {
+          gsap.fromTo(element, modifiedOptions.from, {
+            ...modifiedOptions.to,
             scrollTrigger: {
               trigger: element,
               start: options.start || "top 70%",
               end: options.end || "bottom 30%",
             },
           });
-        });
-      } else {
-        gsap.fromTo(elements, options.from, {
-          ...options.to,
-          stagger: options.stagger,
-          scrollTrigger: {
-            trigger: elements[0],
-            start: options.start || "top 70%",
-            end: options.end || "bottom 30%",
-          },
-        });
-      }
+        } else {
+          gsap.fromTo(elements, modifiedOptions.from, {
+            ...modifiedOptions.to,
+            stagger: options.stagger,
+            scrollTrigger: {
+              trigger: elements[0],
+              start: options.start || "top 70%",
+              end: options.end || "bottom 30%",
+            },
+          });
+        }
+      });
     }
     // スキルを時間差で表示させる
     const fadeUpAnimOptions = {
-      // from: { opacity: 0, y: 40 },
-      from: { opacity: 0, y: 50 },
-      // to: { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" },
-      to: { opacity: 1, y: 0, duration: 1, ease: "power4.out" },
+      from: { opacity: 0, y: 60 },
+      to: { opacity: 1, y: 0, duration: 0.8, ease: "power4.out" },
       stagger: 0.1,
     };
     staggeredFadeUpAnim(".js-staggeredFadeUpAnim", fadeUpAnimOptions);
   }, []);
-
-  // WORKSスライダー要素
-  const items = [
-    { id: 1, content: "Slide 1" },
-    { id: 2, content: "Slide 2" },
-    { id: 3, content: "Slide 3" },
-  ];
 
   return (
     <>
@@ -184,7 +257,7 @@ const Home: NextPage = () => {
                   </h2>
                 </div>
                 <ul className="services__list">
-                  <li className="services__list-item js-fadeUpAnim js-fast">
+                  <li className="services__list-item js-textAnim js-fast">
                     <a
                       // href="#"
                       className="services__list-link"
@@ -222,7 +295,6 @@ const Home: NextPage = () => {
             </p>
             <p className="introduction__text js-textAnim">
               全工程を一貫して担当し、納品する経験を通じて、お客様との深い関わりとその成果物に対する充実感を感じることができました。この体験がフリーランスとして独立するきっかけとなり、現在はお客様との距離をより近くし、パーソナライズされたサービスを提供しています。
-              {/* お客様との距離をより近くし、パーソナライズされたサービスをワンストップで提供することを目指し、現在はフリーランスとして活動しています。 */}
             </p>
             <p className="introduction__text js-textAnim">
               プライベートではアプリ開発に取り組んでおり、新しい技術やトレンドにも常にアンテナを張り、お客様に最適なソリューションを提案できる体制を整えています。
@@ -272,6 +344,7 @@ const Home: NextPage = () => {
           </div>
         </section>
         <section className="works">
+          <WorksBackground />
           <div className="container">
             <h2 className="c-title c-title--alt js-titleAnim">
               <span>WORKS</span>
@@ -279,14 +352,11 @@ const Home: NextPage = () => {
             <p className="c-heading c-heading--alt js-textAnim">
               フリーランス制作実績
             </p>
-            <div className="js-textAnim" style={{ position: 'relative' }}>
+            <div className="js-textAnim" style={{ position: "relative" }}>
               <Slider />
             </div>
             <div className="l-button js-textAnim js-fast">
-              <a
-                href="javascript:void(0)"
-                className="c-button c-button--l"
-              >
+              <a className="c-button c-button--l">
                 <span className="c-button__text">
                   <span>VIEW ALL</span>
                   <span>VIEW ALL</span>
@@ -295,7 +365,6 @@ const Home: NextPage = () => {
             </div>
           </div>
         </section>
-
         <div className="l-image">
           <Image
             src="/img/works-bg.webp"
@@ -314,7 +383,6 @@ const Home: NextPage = () => {
             loading="eager"
           />
         </div>
-
         <section className="history bg-gray">
           <div className="container container--s">
             <h2 className="c-title js-titleAnim">
@@ -325,7 +393,9 @@ const Home: NextPage = () => {
                 <dt className="history__list-dt">2020/10</dt>
                 <dd className="history__list-dd">
                   <p className="c-paragraph">
-                    <span className="heading">株式会社クラウドシードに正社員として入社</span>
+                    <span className="heading">
+                      株式会社クラウドシードに正社員として入社
+                    </span>
                     ディレクション、サイト設計、デザイン、コーディングを担当
                   </p>
                   <p className="c-paragraph">
@@ -366,7 +436,9 @@ const Home: NextPage = () => {
                 <dt className="history__list-dt">2021/11</dt>
                 <dd className="history__list-dd">
                   <p className="c-paragraph">
-                    <span className="heading">DISM株式会社に正社員として入社</span>
+                    <span className="heading">
+                      DISM株式会社に正社員として入社
+                    </span>
                     デザイン、コーディング業務を担当
                   </p>
                   <p className="c-paragraph">
@@ -400,37 +472,6 @@ const Home: NextPage = () => {
             </div>
           </div>
         </section>
-        {/* <div className="privateWorks">
-          <div className="textAnim textAnim--accent">
-            {Array.from({ length: 2 }, (_, ulIndex) => (
-              <ul key={ulIndex}>
-                {worksTextAnim.map((item, liIndex) => (
-                  <li key={`${ulIndex}-${liIndex}`}>{item}</li>
-                ))}
-              </ul>
-            ))}
-          </div>
-          <div className="container">
-            <div className="js-textAnim">
-              <p className="privateWorks__heading">
-                <span>過去の制作実績はこちら</span>
-              </p>
-              <div className="l-button">
-                <a
-                  href="https://private.goubarayoshiyuki.com/"
-                  target="_blank"
-                  rel="noopener"
-                  className="c-button c-button--l"
-                >
-                  <span className="c-button__text">
-                    <span>PRIVATE WORKS</span>
-                    <span>PRIVATE WORKS</span>
-                  </span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div> */}
         <section className="profile">
           <div className="container container--s">
             <h2 className="c-title c-title--alt js-titleAnim">

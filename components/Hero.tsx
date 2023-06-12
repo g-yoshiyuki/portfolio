@@ -6,6 +6,12 @@ import { useAnimationContext } from "../contexts/AnimationContext";
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
+// Safariを判定する関数を追加
+function isSafari() {
+  if (typeof window === "undefined") return false;
+  const ua = window.navigator.userAgent.toLowerCase();
+  return ua.indexOf("safari") !== -1 && ua.indexOf("chrome") === -1;
+}
 
 const Hero = () => {
   const { animationFinished } = useAnimationContext();
@@ -23,12 +29,14 @@ const Hero = () => {
       gsap.set(word, {
         y: 16,
         opacity: 0,
+        willChange: "transform, opacity",
       });
     });
     if (heroImage) {
       gsap.set(heroImage, {
         opacity: 0,
         y: 5,
+        willChange: "transform, opacity",
       });
     }
     const createChildTimeline = (element: Element) => {
@@ -39,6 +47,14 @@ const Hero = () => {
         opacity: 1,
         duration: 0.5,
         ease: "power4.out",
+        onStart: function () {
+          gsap.set(element, { willChange: "transform, opacity" });
+        },
+        onComplete: function () {
+          if (!isSafari()) {
+            gsap.set(element, { willChange: "auto" });
+          }
+        },
       });
       tl.to(
         elText,
@@ -67,6 +83,14 @@ const Hero = () => {
           y: 0,
           duration: 0.7,
           ease: "power4.easeOut",
+          onStart: function () {
+            gsap.set(heroImage, { willChange: "transform, opacity" });
+          },
+          onComplete: function () {
+            if (!isSafari()) {
+              gsap.set(heroImage, { willChange: "auto" });
+            }
+          },
         }),
         0.6
       );
@@ -132,18 +156,23 @@ const Hero = () => {
             </span>
           </div>
           <div className="hero__image" ref={heroImageRef}>
-            <Image
-              src="/img/hero.webp"
-              width={714}
-              height={474.18}
-              alt=""
-              sizes="100vw"
-              style={{
-                width: "100%",
-                height: "auto",
-              }}
-              quality={100}
-            />
+            <span className="imageInner">
+              <Image
+                src="/img/hero.webp?resize"
+                width={714}
+                height={474.18}
+                alt="YOSHIYUKI GOUBARA PORTFOLIO"
+                // 自動生成した画像セットの中から、ブラウザにどの画像をダウンロードするか伝える
+                sizes="100vw"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                }}
+                quality={100}
+                // キービジなので優先読み込みさせる
+                priority={true}
+              />
+            </span>
           </div>
         </div>
       </div>

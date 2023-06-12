@@ -45,7 +45,7 @@ const Slider = () => {
         {worksImages.map((image, index) => (
           <SwiperSlide key={index}>
             <div className="works__item">
-              <a href={image.href} className={`works__item-link ${image.class}`}>
+              <a  className={`works__item-link ${image.class}`}>
                 <Image
                   src={image.src}
                   width={image.width}

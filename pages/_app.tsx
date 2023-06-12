@@ -24,6 +24,13 @@ function debounce(
     timeout = setTimeout(() => func(...args), wait);
   };
 }
+// Safariを判定する関数を追加
+function isSafari() {
+  if (typeof window === "undefined") return false; // サーバーサイドではブラウザーを判定できないため
+  const ua = window.navigator.userAgent.toLowerCase();
+  return ua.indexOf('safari') !== -1 && ua.indexOf('chrome') === -1;
+}
+
 
 function MyApp({ Component, pageProps }: AppProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -36,8 +43,15 @@ function MyApp({ Component, pageProps }: AppProps) {
     );
   });
 
+   // Safari判定。初期値に判定結果が入る。
+  const [isBrowserSafari, setIsBrowserSafari] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return isSafari();
+  });
+
   useLayoutEffect(() => {
-    if (isMobile) {
+    // モバイルデバイスまたはSafariの場合、スムーズスクロールを無効にする
+    if (isMobile || isBrowserSafari) {
       if (scrollContainerRef.current) {
         scrollContainerRef.current.style.position = "static";
         scrollContainerRef.current.style.overflow = "visible";
@@ -49,8 +63,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       }
       return;
     }
-    // モバイルデバイスの場合、スムーズスクロールを無効にする
-    if (isMobile) return;
+
 
     const container = scrollContainerRef.current;
     // body の高さを更新する関数
@@ -64,26 +77,37 @@ function MyApp({ Component, pageProps }: AppProps) {
     let scrollTriggerInstance: ScrollTrigger | undefined;
     let tweenInstance: gsap.core.Tween | undefined;
     // Y 値を更新する関数
-    const updateYValue = () => {
+    // const updateYValue = () => {
+    //   if (container && tweenInstance) {
+    //     tweenInstance.vars.y = -(
+    //       container.clientHeight - document.documentElement.clientHeight
+    //     );
+    //     // スクロールトリガーの更新を強制的に行う
+    //     if (scrollTriggerInstance) {
+    //       scrollTriggerInstance.update();
+    //     }
+    //   }
+    // };
+
+    // Y 値を更新する関数(修正版)
+    const update = () => {
       if (container && tweenInstance) {
         tweenInstance.vars.y = -(
           container.clientHeight - document.documentElement.clientHeight
         );
-        // スクロールトリガーの更新を強制的に行う
         if (scrollTriggerInstance) {
           scrollTriggerInstance.update();
         }
       }
+      requestAnimationFrame(update);
     };
-
     // リサイズイベントの処理を debounce で最適化
     const handleResize = debounce(() => {
       updateBodyHeight();
-      updateYValue();
+      update();
       ScrollTrigger.refresh();
     }, 200);
     window.addEventListener("resize", handleResize);
-
     if (container) {
       // 初回のbodyの高さを設定
       // updateBodyHeightを実行するだけでは、正確な高さを取得出来ずページ下部が少し切れてしまう。
@@ -107,8 +131,20 @@ function MyApp({ Component, pageProps }: AppProps) {
             scrollTriggerInstance = self;
           },
         },
+        onStart: () => {
+          if (container) {
+            // Add the will-change property at the start of the animation
+            container.style.willChange = 'transform';
+          }
+        },
+        onComplete: () => {
+          if (container && !isSafari()) {
+            container.style.willChange = 'auto';
+          }
+        },
       });
       tweenInstance = tween;
+      update();
     }
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -119,7 +155,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         tweenInstance.kill();
       }
     };
-  }, []);
+  }, [isMobile, isBrowserSafari]);
 
   return (
     <>
