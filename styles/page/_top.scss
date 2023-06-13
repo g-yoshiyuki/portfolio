@@ -1179,6 +1179,7 @@ main {
         }
         &::after {
           content: "COMING SOON";
+          text-align: center;
           color: s.$c-base--alt;
           @include s.center;
           z-index: 2;

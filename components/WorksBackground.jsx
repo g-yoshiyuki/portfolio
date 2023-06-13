@@ -4,6 +4,12 @@ import { debounce } from 'lodash';
 import * as THREE from "three";
 // import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
+// 全体のロジックは以下。
+// ①パーティクルを千個作成して、ShaderMaterialで形をカスタマイズしている。
+// ②ユーザーがカメラアングルをマウスで変更できないようにして、自動で回転させている。
+// ③div.worksBackgroundの高さ、横幅を取得して空間のサイズに設定している。
+// ④一定数のパーティクルを流れ星として、z方向に移動するようにしている。
+
 const WorksBackground = () => {
   const mountRef = useRef(null);
   useEffect(() => {

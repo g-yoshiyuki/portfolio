@@ -126,7 +126,8 @@ const Home: NextPage = () => {
     gsap.to(".skills", {
       scrollTrigger: {
         trigger: ".skills",
-        start: "top 48%",
+        // start: "top 48%",
+        start: "top 20%",
         onEnter: () => {
           const skillsElements = Array.from(
             document.querySelectorAll(
@@ -165,7 +166,8 @@ const Home: NextPage = () => {
     gsap.to(".works", {
       scrollTrigger: {
         trigger: ".works",
-        start: "top 40%",
+        // start: "top 40%",
+        start: "top 20%",
         onEnter: () => {
           const worksBg = document.querySelector(
             ".worksBackground"
