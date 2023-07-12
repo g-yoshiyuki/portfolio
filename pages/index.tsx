@@ -496,7 +496,7 @@ const Home: NextPage = () => {
               </div>
               <div className="profile__info-image js-textAnim">
                 <Image
-                  src="/img/image.webp?111"
+                  src="/img/image.webp?112"
                   width={176}
                   height={223.52}
                   alt=""
