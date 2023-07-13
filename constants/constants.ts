@@ -37,7 +37,7 @@ export const worksImages = [
     src: "/img/works1.webp",
     alt: "slide1",
     width: 773.29,
-    height: 276.07,
+    height: 392.84,
     // href: "",
     class: "comingsoon"
   },
@@ -45,7 +45,7 @@ export const worksImages = [
     src: "/img/works2.webp",
     alt: "slide2",
     width: 773.29,
-    height: 276.07,
+    height: 392.84,
     // href: "",
     class: "comingsoon"
   },
@@ -53,7 +53,7 @@ export const worksImages = [
     src: "/img/works3.webp",
     alt: "slide3",
     width: 773.29,
-    height: 276.07,
+    height: 392.84,
     // href: "",
     class: "comingsoon"
   },
@@ -61,7 +61,7 @@ export const worksImages = [
     src: "/img/works4.webp",
     alt: "slide4",
     width: 773.29,
-    height: 276.07,
+    height: 392.84,
     // href: "",
     class: "comingsoon"
   },
@@ -69,7 +69,7 @@ export const worksImages = [
     src: "/img/works5.webp",
     alt: "slide5",
     width: 773.29,
-    height: 276.07,
+    height: 392.84,
     // href: "",
     class: "comingsoon"
   },
@@ -77,7 +77,7 @@ export const worksImages = [
     src: "/img/works6.webp",
     alt: "slide6",
     width: 773.29,
-    height: 276.07,
+    height: 392.84,
     // href: "",
     class: "comingsoon"
   },
