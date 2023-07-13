@@ -124,18 +124,18 @@ export const Header = () => {
                   href="https://private.goubarayoshiyuki.com/"
                   target="_blank"
                   rel="noopener"
-                  className=""
+                  className="header__nav-link"
                 >
                   - COMPANY WORKS -
                 </a>
               </li>
               <li className="header__nav-item">
-                <a href="" target="_blank" rel="noopener" className="no-link">
+                <a className="header__nav-link no-link">
                   - FREELANCE WORKS -
                 </a>
               </li>
               <li className="header__nav-item">
-                <a href="" target="_blank" rel="noopener" className="no-link">
+                <a href="https://svc.goubarayoshiyuki.com/" target="_blank" rel="noopener" className="header__nav-link">
                   - MY SERVICES -
                 </a>
               </li>

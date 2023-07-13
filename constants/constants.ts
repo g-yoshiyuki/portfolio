@@ -34,7 +34,7 @@ export const contactTextAnim = ["PLEASE MESSAGE", "PLEASE MESSAGE"];
 // react版のswiperはループモードの時、画像4枚以上必要。3枚だと空白が生まれてしまう。
 export const worksImages = [
   {
-    src: "/img/lp.webp",
+    src: "/img/works1.webp",
     alt: "slide1",
     width: 773.29,
     height: 276.07,
@@ -42,24 +42,40 @@ export const worksImages = [
     class: "comingsoon"
   },
   {
-    src: "/img/lp.webp",
-    alt: "slide1",
+    src: "/img/works2.webp",
+    alt: "slide2",
     width: 773.29,
     height: 276.07,
     // href: "",
     class: "comingsoon"
   },
   {
-    src: "/img/lp.webp",
-    alt: "slide1",
+    src: "/img/works3.webp",
+    alt: "slide3",
     width: 773.29,
     height: 276.07,
     // href: "",
     class: "comingsoon"
   },
   {
-    src: "/img/lp.webp",
-    alt: "slide1",
+    src: "/img/works4.webp",
+    alt: "slide4",
+    width: 773.29,
+    height: 276.07,
+    // href: "",
+    class: "comingsoon"
+  },
+  {
+    src: "/img/works5.webp",
+    alt: "slide5",
+    width: 773.29,
+    height: 276.07,
+    // href: "",
+    class: "comingsoon"
+  },
+  {
+    src: "/img/works6.webp",
+    alt: "slide6",
     width: 773.29,
     height: 276.07,
     // href: "",

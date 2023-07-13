@@ -261,7 +261,7 @@ const Home: NextPage = () => {
                 <ul className="services__list">
                   <li className="services__list-item js-textAnim js-fast">
                     <a
-                      // href="#"
+                      href="https://svc.goubarayoshiyuki.com/"
                       className="services__list-link"
                       target="_blank"
                       rel="noopener"
@@ -361,7 +361,8 @@ const Home: NextPage = () => {
               <a className="c-button c-button--l">
                 <span className="c-button__text">
                   <span>VIEW ALL</span>
-                  <span>VIEW ALL</span>
+                  <span>COMING SOON</span>
+                  {/* <span>VIEW ALL</span> */}
                 </span>
               </a>
             </div>
@@ -496,7 +497,7 @@ const Home: NextPage = () => {
               </div>
               <div className="profile__info-image js-textAnim">
                 <Image
-                  src="/img/image.webp?112"
+                  src="/img/image.webp?999"
                   width={176}
                   height={223.52}
                   alt=""

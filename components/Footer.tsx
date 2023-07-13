@@ -20,7 +20,7 @@ export const Footer = () => {
           <div className="container">
             <div className="l-button footer__button js-textAnim js-fast">
               <a
-                href="mailto:yoshiyukigoubara@gmail.com"
+                href="mailto:info@goubarayoshiyuki.com"
                 className="c-button c-button--l "
               >
                 <span className="c-button__text">
