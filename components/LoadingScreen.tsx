@@ -98,7 +98,7 @@ const LoadingScreen: React.FC = () => {
         },
       }
     );
-    // onCompleteで完了通知するとローディング画面が消えてから間があく。
+    // 上記のonCompleteで完了通知するとローディング画面が消えて間が空いてからheroに通知が行くので遅い。
     // 以下でtrueにするタイミングを少し早めている。
     tl.add(() => {
       setAnimationFinished(true);

@@ -170,7 +170,7 @@ const Hero = () => {
                 }}
                 quality={100}
                 // キービジなので優先読み込みさせる
-                priority={true}
+                // priority={true}
               />
             </span>
           </div>
