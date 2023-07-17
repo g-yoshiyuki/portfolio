@@ -2,73 +2,84 @@
 // publicフォルダがルートパスになる
 @font-face {
   font-family: 'Gordita';
-  src: url('/font/Gordita-Black.woff2') format('woff2'), url('/font/Gordita-Black.woff') format('woff');
+  src: url('/font/Gordita-Black.woff2') format('woff2');
+  // url('/font/Gordita-Black.woff') format('woff');
   font-weight: 700;
   font-style: normal;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('/font/Gordita-Bold.woff2') format('woff2'), url('/font/Gordita-Bold.woff') format('woff');
+  src: url('/font/Gordita-Bold.woff2') format('woff2');
+  // url('/font/Gordita-Bold.woff') format('woff');
   font-weight: 600;
   font-style: normal;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('/font/Gordita-Medium.woff2') format('woff2'), url('/font/Gordita-Medium.woff') format('woff');
+  src: url('/font/Gordita-Medium.woff2') format('woff2');
+  // url('/font/Gordita-Medium.woff') format('woff');
   font-weight: 500;
   font-style: normal;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('/font/Gordita-Regular.woff2') format('woff2'), url('/font/Gordita-Regular.woff') format('woff');
+  src: url('/font/Gordita-Regular.woff2') format('woff2');
+  // url('/font/Gordita-Regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('/font/Gordita-Light.woff2') format('woff2'), url('/font/Gordita-Light.woff') format('woff');
+  src: url('/font/Gordita-Light.woff2') format('woff2');
+  // url('/font/Gordita-Light.woff') format('woff');
   font-weight: 300;
   font-style: normal;
 }
 @font-face {
   font-family: 'SourceHanSansJP';
-  src: url('/font/SourceHanSansJP_Bold.woff2') format('woff2'), url('/font/SourceHanSansJP_Bold.woff') format('woff');
+  src: url('/font/SourceHanSansJP_Bold.woff2') format('woff2');
+  // url('/font/SourceHanSansJP_Bold.woff') format('woff');
   font-weight: 600;
   font-style: normal;
 }
 @font-face {
   font-family: 'SourceHanSansJP';
-  src: url('/font/SourceHanSansJP_Medium.woff2') format('woff2'), url('/font/SourceHanSansJP_Medium.woff') format('woff');
+  src: url('/font/SourceHanSansJP_Medium.woff2') format('woff2');
+  // url('/font/SourceHanSansJP_Medium.woff') format('woff');
   font-weight: 500;
   font-style: normal;
 }
 @font-face {
   font-family: 'SourceHanSansJP';
-  src: url('/font/SourceHanSansJP_Regular.woff2') format('woff2'), url('/font/SourceHanSansJP_Regular.woff') format('woff');
+  src: url('/font/SourceHanSansJP_Regular.woff2') format('woff2');
+  // url('/font/SourceHanSansJP_Regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
 }
-@font-face {
-  font-family: 'SourceHanSansJP';
-  src: url('/font/SourceHanSansJP_Normal.woff2') format('woff2'), url('/font/SourceHanSansJP_Normal.woff') format('woff');
-  font-weight: 300;
-  font-style: normal;
-}
+// @font-face {
+//   font-family: 'SourceHanSansJP';
+//   src: url('/font/SourceHanSansJP_Normal.woff2') format('woff2'), url('/font/SourceHanSansJP_Normal.woff') format('woff');
+//   font-weight: 300;
+//   font-style: normal;
+// }
 @font-face {
   font-family: 'YakuHanJP';
-  src: url('/font/YakuHanJP-Bold.woff2') format('woff2'), url('/font/YakuHanJP-Bold.woff') format('woff');
+  src: url('/font/YakuHanJP-Bold.woff2') format('woff2');
+  // url('/font/YakuHanJP-Bold.woff') format('woff');
   font-weight: 600;
   font-style: normal;
 }
 @font-face {
   font-family: 'YakuHanJP';
-  src: url('/font/YakuHanJP-Medium.woff2') format('woff2'), url('/font/YakuHanJP-Medium.woff') format('woff');
+  src: url('/font/YakuHanJP-Medium.woff2') format('woff2');
+  // url('/font/YakuHanJP-Medium.woff') format('woff');
   font-weight: 500;
   font-style: normal;
 }
 @font-face {
   font-family: 'YakuHanJP';
-  src: url('/font/YakuHanJP-Regular.woff2') format('woff2'), url('/font/YakuHanJP-Regular.woff') format('woff');
+  src: url('/font/YakuHanJP-Regular.woff2') format('woff2');
+  // url('/font/YakuHanJP-Regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
 }

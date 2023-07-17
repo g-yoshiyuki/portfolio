@@ -248,31 +248,30 @@ main {
     //   }
     // }
   }
-  &--accent {
-    height: 100px;
-    height: math.div(100, 16) * 1rem;
-    // border-top: 1px dashed #565656;
-    border-bottom: 1px dashed #565656;
-    ul {
-      // transform: translateX(-100%);
-      // animation: flowing 30s linear infinite;
-      animation: flowing 40s linear infinite;
-    }
-    li {
-      color: s.$ac;
-      // padding-right: .5em;
-      font: {
-        weight: 300;
-        size: math.div(23, 16) * 1rem;
-      }
-      // @include s.xl-min {
-      //   font: {
-      //     size: math.div(18, 16) * 1rem;
-      //     size: math.div(23, 16) * 1rem;
-      //   }
-      // }
-    }
-  }
+  // &--accent {
+  //   height: 100px;
+  //   height: math.div(100, 16) * 1rem;
+  //   // border-top: 1px dashed #565656;
+  //   border-bottom: 1px dashed #565656;
+  //   ul {
+  //     // transform: translateX(-100%);
+  //     // animation: flowing 30s linear infinite;
+  //     animation: flowing 40s linear infinite;
+  //   }
+  //   li {
+  //     color: s.$ac;
+  //     font: {
+  //       weight: 300;
+  //       size: math.div(23, 16) * 1rem;
+  //     }
+  //     // @include s.xl-min {
+  //     //   font: {
+  //     //     size: math.div(18, 16) * 1rem;
+  //     //     size: math.div(23, 16) * 1rem;
+  //     //   }
+  //     // }
+  //   }
+  // }
 }
 @keyframes flowing {
   0% {
@@ -770,6 +769,7 @@ main {
       font: {
         size: math.div(18, 16) * 1rem;
         weight: 400;
+        family: s.$f-ja;
       }
       // margin-left: 1.2em;
       // margin-left: 1.4em;
@@ -879,8 +879,9 @@ main {
           // size: max(10px, math.div(14, 16) * 1rem);
           // weight: 400;
           weight: 300;
-          // weight: 400;
+          weight: 400;
           // weight: 600;
+          family: s.$f-en;
         }
         // color: inherit;
         // background-color: s.$c-base;
@@ -906,8 +907,9 @@ main {
         font: {
           // size: math.div(14, 16) * 1rem;
           size: max(10px, math.div(14, 16) * 1rem);
-          // weight: 400;
-          weight: 300;
+          weight: 400;
+          // weight: 300;
+          family: s.$f-en;
         }
         // margin-bottom: 0.8em;
         margin-bottom: 0.6em;
@@ -1040,6 +1042,7 @@ main {
   .c-heading {
     margin-bottom: 2.3em;
     color: s.$c-base;
+    // color: s.$main!important;
   }
   .c-title--accent {
     @include s.sm {
@@ -1306,6 +1309,7 @@ main {
     &-dt {
       font: {
         weight: 600;
+        family: s.$f-en;
       }
       // color: #555;
       // flex-basisの初期値がautoで、その要素のwidthやheightに基づいて決定される。
