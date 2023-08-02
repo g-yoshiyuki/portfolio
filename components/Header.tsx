@@ -1,6 +1,7 @@
 import { useAnimationContext } from "../contexts/AnimationContext";
 import { useRef, useLayoutEffect, useEffect } from "react";
 import { gsap } from "gsap";
+import Link from "next/link";
 
 function isSafari() {
   if (typeof window === "undefined") return false;
@@ -11,6 +12,8 @@ function isSafari() {
 export const Header = () => {
   const { animationFinished } = useAnimationContext();
   const headerRef = useRef<HTMLHeadingElement | null>(null);
+  const hmRef = useRef<HTMLDivElement | null>(null);
+  const navRef = useRef<HTMLElement | null>(null);
 
   // ローディング完了後にheaderをおろす
   useLayoutEffect(() => {
@@ -113,9 +116,81 @@ export const Header = () => {
     }
   }, []);
 
+  // Next.jsのLinkをつかっているため、ハンバーガー内のメニューをクリックしてもハンバーガーがとじない。メニューをクリックした時にとじるように各メニューに以下の関数をクリックイベントに設定している。
+  // そのためpc時は影響しないようにmatchMediaを使っている。
+  const handleHmClick = () => {
+    if (window.matchMedia("(max-width: 640px)").matches) {
+      if (hmRef.current) {
+        hmRef.current.classList.toggle("active");
+      }
+      if (navRef.current) {
+        navRef.current.classList.toggle("active");
+      }
+    }
+  };
+
   return (
     <>
       <header className="header" ref={headerRef}>
+        <div className="container">
+          <Link href="/" className="header__logo">
+            <img
+              src="/img/logo.svg"
+              alt="郷原 芳幸"
+              width="50"
+              height="50"
+            />
+          </Link>
+          <nav className="header__nav" ref={navRef}>
+            <ul className="header__nav-list">
+              <li className="header__nav-item">
+                <Link href="/" className="header__nav-link" onClick={handleHmClick}>
+                  HOME
+                </Link>
+              </li>
+              <li className="header__nav-item">
+                <a
+                  href="https://private.goubarayoshiyuki.com/"
+                  target="_blank"
+                  rel="noopener"
+                  className="header__nav-link"
+                >
+                  COMPANY WORKS
+                </a>
+              </li>
+              <li className="header__nav-item">
+                <Link href="/works/" className="header__nav-link" onClick={handleHmClick}>
+                  FREELANCE WORKS
+                </Link>
+              </li>
+              <li className="header__nav-item">
+                <a
+                  href="https://svc.goubarayoshiyuki.com/"
+                  target="_blank"
+                  rel="noopener"
+                  className="header__nav-link"
+                >
+                  MY SERVICES
+                </a>
+              </li>
+              <li className="header__nav-item">
+                <a
+                  href="mailto:info@goubarayoshiyuki.com"
+                  className="header__nav-link"
+                >
+                  SEND MAIL
+                </a>
+              </li>
+            </ul>
+            <span className="nonScroll"></span>
+          </nav>
+          <div className="hm" ref={hmRef} onClick={handleHmClick}>
+            <span className="line"></span>
+          </div>
+        </div>
+      </header>
+      {/* 以下、ロゴ無しheader */}
+      {/* <header className="header" ref={headerRef}>
         <div className="container">
           <nav className="header__nav">
             <ul className="header__nav-list">
@@ -142,7 +217,7 @@ export const Header = () => {
             </ul>
           </nav>
         </div>
-      </header>
+      </header> */}
     </>
   );
 };

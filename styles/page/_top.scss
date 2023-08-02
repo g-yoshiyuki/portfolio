@@ -15,7 +15,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 100;
+  z-index: 9999;
   &__text {
     font: {
       size: math.div(20, 16) * 1rem;
@@ -63,6 +63,84 @@
 /* ----------------------- */
 /*共通
 /* ----------------------- */
+.mt0 {
+  margin-top: 0px !important;
+}
+
+.mt10 {
+  margin-top: math.div(10, 16) * 1rem !important;
+}
+
+.mt20 {
+  margin-top: math.div(20, 16) * 1rem !important;
+}
+
+.mt30 {
+  margin-top: math.div(30, 16) * 1rem !important;
+}
+
+.mt40 {
+  margin-top: math.div(40, 16) * 1rem !important;
+}
+
+.mt50 {
+  margin-top: math.div(50, 16) * 1rem !important;
+}
+
+.mt60 {
+  margin-top: math.div(60, 16) * 1rem !important;
+}
+.mb0 {
+  margin-bottom: 0px !important;
+}
+
+.mb10 {
+  margin-bottom: math.div(10, 16) * 1rem !important;
+}
+
+.mb20 {
+  margin-bottom: math.div(20, 16) * 1rem !important;
+}
+
+.mb30 {
+  margin-bottom: math.div(30, 16) * 1rem !important;
+}
+
+.mb40 {
+  margin-bottom: math.div(40, 16) * 1rem !important;
+}
+
+.mb50 {
+  margin-bottom: math.div(50, 16) * 1rem !important;
+}
+
+.mb60 {
+  margin-bottom: math.div(60, 16) * 1rem !important;
+}
+.mt1em {
+  margin-top: 1em !important;
+}
+.mt15em {
+  margin-top: 1.5em !important;
+}
+.mt2em {
+  margin-top: 2em !important;
+}
+.mb1em {
+  margin-bottom: 1em !important;
+}
+.mb15em {
+  margin-bottom: 1.5em !important;
+}
+.mb2em {
+  margin-bottom: 2em !important;
+}
+.pt0 {
+  padding-top: 0 !important;
+}
+.pb0 {
+  padding-bottom: 0 !important;
+}
 #viewport {
   position: fixed;
   top: 0;
@@ -88,6 +166,14 @@
   // &.mobileDevice {
   //   display: none!important;
   // }
+}
+.nonScroll {
+  height: calc(100vh + 1px);
+  width: 1px;
+  background-color: transparent;
+  @include s.lg-min {
+    display: none;
+  }
 }
 
 main {
@@ -248,6 +334,21 @@ main {
     //   }
     // }
   }
+  &--lower {
+    // ロゴ無しヘッダー対応
+    // margin-top: max(110px, math.div(135, 16) * 1rem);
+    margin-top: max(115px, math.div(135, 16) * 1rem);
+    ul {
+      animation: flowing 20s linear infinite;
+    }
+    li {
+      color: s.$c-textAnim;
+      // letter-spacing: 0;
+      font: {
+        size: math.div(110, 16) * 1rem;
+      }
+    }
+  }
   // &--accent {
   //   height: 100px;
   //   height: math.div(100, 16) * 1rem;
@@ -317,6 +418,8 @@ main {
   span {
     color: inherit;
   }
+}
+.c-title2 {
 }
 .c-title--accent {
   font: {
@@ -441,8 +544,8 @@ main {
 .swiper-slide-active {
   // opacity: 0.85; /* アクティブなスライドの透明度を設定 */
   // opacity: 0.8;
-  opacity: .85;
-  opacity: .9;
+  opacity: 0.85;
+  opacity: 0.9;
   img {
     // filter: brightness(105%);
   }
@@ -500,9 +603,6 @@ main {
   left: 0;
   z-index: 5;
   width: 100%;
-  // padding: 22px math.div(70, 1600) * 100%;
-  // display: flex;
-  // justify-content: space-between;
   transition: top 1s cubic-bezier(0.23, 1, 0.32, 1);
   padding: 25px 0;
   @include s.large-devices {
@@ -511,51 +611,102 @@ main {
   @include s.sm {
     padding: 18px 2.6vw 0;
   }
-  // &__logo {
-  //   color: s.$c-base--alt;
-  //   font: {
-  //     size: math.div(23, 16) * 1rem;
-  //     family: s.$f-en;
-  //     weight: bold;
-  //   }
-  //   letter-spacing: s.$spacing--en;
-  // }
-  .container {
-    padding: 0;
+  &__logo {
+    width: math.div(37, 16) * 1rem;
+    width: max(32px, math.div(37, 16) * 1rem);
   }
   &__nav {
-    width: 100%;
-    &-list {
+    @include s.sm {
+      width: 100vw;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: s.$c-base--alt;
+      visibility: hidden;
+      opacity: 0;
+      // transition: opacity 0.5s ease, visibility 0.5s ease;
+      // ハンバーガーを閉じた時のtransition。Next.jsのLinkをつかっているため、ハンバーガー内のメニューをクリックしてもハンバーガーがとじない。メニューをクリックした時にとじるようにjsを書いたのでページ遷移前にハンバーガーがとじてしまう。その対策として閉じる時のtransitionをゆっくりにしている。
+      // transition: opacity 1s ease, visibility 1s ease;
+      // 0.2秒開始を遅らせている。
+      // transition: opacity 1s ease 0.2s, visibility 1s ease 0.2s;
+      transition: opacity 0.5s ease 0.4s, visibility 0.5s ease 0.4s;
+      z-index: 50;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
       display: flex;
-      justify-content: space-evenly;
+      align-items: center;
+      overscroll-behavior: contain;
+      overflow-y: scroll;
+    }
+    &.active {
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+      visibility: visible;
+      opacity: 1;
+      .header__nav-list {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    &-list {
+      @include s.sm {
+        flex-direction: column;
+        transition: 0.5s cubic-bezier(0.17, 0.84, 0.44, 1);
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      display: flex;
     }
     &-item {
+      @include s.sm {
+        font: {
+          size: math.div(32, 16) * 1rem;
+        }
+        padding-left: math.div(70, 16) * 1rem;
+        &:not(:last-child) {
+          margin-bottom: 0.6em;
+        }
+      }
       font: {
-        // size: max(10px, math.div(16, 16) * 1rem);
-        size: max(10px, math.div(16, 16) * 1rem);
-        // weight: 400;
-        weight: 500;
+        size: max(11px, math.div(15, 16) * 1rem);
+        weight: 400;
         family: s.$f-en;
+        // weight: 500;
+      }
+      padding: 0 math.div(25, 16) * 1rem;
+      &:last-child {
+        @include s.sm {
+          display: block;
+        }
+        display: none;
       }
     }
     &-link {
+      @include s.sm {
+        color: s.$c-base;
+      }
       transition: 0.3s;
       color: s.$c-base--alt;
-      &:hover {
-        color: s.$ac;
+      @include s.sm-min {
+        &:hover {
+          color: s.$ac;
+        }
       }
       &.no-link:hover {
         cursor: pointer;
         color: s.$c-base--alt;
-        opacity: .4;
+        opacity: 0.4;
       }
     }
   }
   .container {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    height: 62px;
-    height: max(52px, math.div(62, 16) * 1rem);
+    height: auto;
+    padding: max(10px, math.div(12.5, 16) * 1rem) math.div(50, 16) * 1rem;
     background-color: s.$c-base;
     border-radius: math.div(6, 16) * 1rem;
     box-shadow: 0 0px 8px rgba(67, 67, 67, 0.3);
@@ -563,6 +714,79 @@ main {
 }
 .scroll-header-hidden {
   top: -100px;
+}
+// ハンバーガーメニュー
+.hm {
+  display: flex;
+  align-items: center;
+  width: max(30px, math.div(50, 16) * 1rem);
+  height: max(30px, math.div(50, 16) * 1rem);
+  cursor: pointer;
+  z-index: 60;
+  will-change: transform;
+  @include s.sm-min {
+    display: none;
+  }
+
+  .line {
+    // display: block;
+    width: 100%;
+    // height: 4px;
+    height: max(1px, math.div(3, 16) * 1rem);
+    border-radius: 0px;
+    // background-color: s.$c-base;
+    background-color: s.$c-base--alt;
+    position: relative;
+    transition: all 0.5s;
+    will-change: transform;
+
+    &::before,
+    &::after {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 4px;
+      height: max(1px, math.div(3, 16) * 1rem);
+      border-radius: 0px;
+      // background-color: s.$c-base;
+      background-color: s.$c-base--alt;
+      position: absolute;
+      transition: all 0.5s;
+      will-change: transform;
+    }
+
+    &::before {
+      // transform: translateY(-11px);
+      // transform: translateY(math.div(-11, 16) * 1rem);
+
+      // マイナスの値なのでminを使う
+      transform: translateY(min(-7px, math.div(-11, 16) * 1rem));
+    }
+
+    &::after {
+      // transform: translateY(11px);
+      // transform: translateY(math.div(11, 16) * 1rem);
+      transform: translateY(max(7px, math.div(11, 16) * 1rem));
+    }
+  }
+
+  // 動き
+  &.active .line {
+    background-color: transparent;
+    // background-color: s.$c-base;
+  }
+
+  &.active .line::before {
+    transform: rotate(45deg);
+    background-color: s.$c-base;
+    // background-color: s.$main;
+  }
+
+  &.active .line::after {
+    transform: rotate(-45deg);
+    background-color: s.$c-base;
+    // background-color: s.$main;
+  }
 }
 
 /* ----------------------- */
@@ -1476,25 +1700,68 @@ main {
 /* ----------------------- */
 /*footer
 /* ----------------------- */
-.footer {
+.contactArea {
   background: s.$bg;
-  // background: #111;
-  // padding: math.div(40, 16) * 1rem;
-  padding-bottom: math.div(20, 16) * 1rem;
-  // padding-top: math.div(80, 16) * 1rem;
+  padding-bottom: math.div(80, 16) * 1rem;
+  &__button {
+    margin-top: math.div(-55, 16) * 1rem;
+  }
+}
+.footer {
+  background: s.$bg--l;
+  padding-top: math.div(80, 16) * 1rem;
   position: relative;
   z-index: 1;
 
+  &__list {
+    @include s.sm {
+      flex-direction: column;
+      // align-items: center;
+    }
+    display: flex;
+    justify-content: center;
+    &-item {
+      @include s.sm {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+
+        // text-align: center;
+      }
+      font: {
+        size: max(11px, math.div(16, 16) * 1rem);
+        family: s.$f-en;
+      }
+      &:not(:last-child) {
+        @include s.sm {
+          margin-right: 0;
+          margin-bottom: 1.5em;
+        }
+        // margin-right: 2.5em;
+        margin-right: 3em;
+      }
+    }
+    &-link {
+      @include s.sm {
+        padding-bottom: .5em;
+      }
+      display: block;
+      color: s.$white;
+      transition: .3s;
+      white-space: nowrap;
+      &:hover {
+        color: s.$ac;
+      }
+    }
+  }
+  &__logo {
+    margin: math.div(45, 16) * 1rem auto 0;
+    width: math.div(60, 16) * 1rem;
+  }
   &__copy {
-    // font-size: 10px;
     display: block;
     text-align: center;
-    color: s.$c-base--alt;
-    margin-top: math.div(80, 16) * 1rem;
-    // margin-top: math.div(90, 16) * 1rem;
-    // padding-top: 1em;
-    // border-top: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 1.5em 0;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: math.div(35, 16) * 1rem;
+    padding-bottom: math.div(50, 16) * 1rem;;
     @include s.sm-min {
       font: {
         // size: math.div(12, 16) * 1rem;
@@ -1502,26 +1769,4 @@ main {
       }
     }
   }
-  &__button {
-    // margin-top: math.div(10, 16) * 1rem;
-    // margin-top: math.div(-45, 16) * 1rem;
-    margin-top: math.div(-55, 16) * 1rem;
-    // margin-top: math.div(-110, 16) * 1rem;
-  }
-  // &__email {
-  //   font: {
-  //     size: math.div(24, 16) * 1rem;
-  //     family: s.$f-en;
-  //   }
-  //   color: s.$c-base--alt;
-  //   &::before {
-  //     content: "";
-  //     display: inline-block;
-  //     height: math.div(24, 16) * 1rem;
-  //     width: math.div(70, 16) * 1rem;
-  //     @include s.bg("email.svg") {
-  //       // background-size: 100%;
-  //     }
-  //   }
-  // }
 }

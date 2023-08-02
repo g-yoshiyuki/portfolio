@@ -5,6 +5,7 @@
 base
 ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★ */
 html {
+  background: s.$c-base--alt;
   // 640px以下
   @include s.sm {
     font-size: math.div(16, 640) * 100vw;
@@ -48,6 +49,7 @@ a {
 img {
   vertical-align: bottom;
   width: 100%;
+  height: auto;
 }
 
 // iPhoneでフォーム入力時に拡大されるのを防ぐ

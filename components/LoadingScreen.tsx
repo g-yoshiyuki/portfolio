@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { useAnimationContext } from "../contexts/AnimationContext";
 
@@ -12,7 +12,8 @@ const LoadingScreen: React.FC = () => {
   const loadingScreenRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const progressBarInnerRef = useRef<HTMLDivElement>(null);
-  const { setAnimationFinished } = useAnimationContext();
+  const { animationFinished,setAnimationFinished} = useAnimationContext();
+
   const loadingText = "LOADING".split("").map((char, index) => (
     <span key={index} className="char">
       {char}
@@ -20,6 +21,10 @@ const LoadingScreen: React.FC = () => {
   ));
 
   useLayoutEffect(() => {
+    if(animationFinished) {
+      loadingScreenRef.current!.style.display = "none";
+      return
+    }
     const tl = gsap.timeline();
     tl.set(`.char`, { willChange: "transform, opacity" }).to(`.char`, {
       y: 0,
@@ -32,7 +37,6 @@ const LoadingScreen: React.FC = () => {
         }
       },
     });
-
     tl.set([progressBarRef.current, progressBarInnerRef.current], {
       willChange: "transform",
     }).to(progressBarRef.current, {
@@ -60,7 +64,7 @@ const LoadingScreen: React.FC = () => {
       ease: "expo.out",
       onComplete: function () {
         if (!isSafari()) {
-        gsap.set(progressBarRef.current, { willChange: "auto" });
+          gsap.set(progressBarRef.current, { willChange: "auto" });
         }
       },
     });
@@ -71,7 +75,7 @@ const LoadingScreen: React.FC = () => {
       ease: "expo.out",
       onComplete: function () {
         if (!isSafari()) {
-        gsap.set(progressBarInnerRef.current, { willChange: "auto" });
+          gsap.set(progressBarInnerRef.current, { willChange: "auto" });
         }
       },
     });
@@ -81,18 +85,12 @@ const LoadingScreen: React.FC = () => {
         duration: 1,
         opacity: 0,
 
-        // 左から開くパターン
-        // duration: .7,
-        // x: "100%",
-        // ease: "power4.out",
-
         onComplete: () => {
           // ローディング完了通知
-          // setAnimationFinished(true);
           if (loadingScreenRef.current) {
             loadingScreenRef.current.style.display = "none";
             if (!isSafari()) {
-            gsap.set(loadingScreenRef.current, { willChange: "auto" });
+              gsap.set(loadingScreenRef.current, { willChange: "auto" });
             }
           }
         },
@@ -103,6 +101,7 @@ const LoadingScreen: React.FC = () => {
     tl.add(() => {
       setAnimationFinished(true);
     }, "-=.55");
+
   }, [setAnimationFinished]);
 
   return (

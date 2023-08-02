@@ -7,6 +7,8 @@ import Hero from "../components/Hero";
 import { skillsData, skillsTextAnim } from "../constants/constants";
 import Slider from "../components/Slider";
 import WorksBackground from "../components/WorksBackground";
+import LoadingScreen from "../components/LoadingScreen";
+import Link from "next/link";
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
@@ -245,6 +247,7 @@ const Home: NextPage = () => {
 
   return (
     <>
+      <LoadingScreen />
       <main>
         <Hero />
         <aside className="l-services">
@@ -358,13 +361,14 @@ const Home: NextPage = () => {
               <Slider />
             </div>
             <div className="l-button js-textAnim js-fast">
-              <a className="c-button c-button--l">
+              {/* <a className="c-button c-button--l"> */}
+              <Link href="/works/" className="c-button c-button--l">
                 <span className="c-button__text">
                   <span>VIEW ALL</span>
-                  <span>COMING SOON</span>
-                  {/* <span>VIEW ALL</span> */}
+                  <span>VIEW ALL</span>
                 </span>
-              </a>
+              </Link>
+              {/* </a> */}
             </div>
           </div>
         </section>

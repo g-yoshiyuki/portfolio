@@ -1,0 +1,179 @@
+@charset "UTF-8";
+@use "../setting" as s;
+@use "sass:math";
+/* ----------------------- */
+/*下層共通
+/* ----------------------- */
+.section--lower {
+  padding: math.div(80, 16) * 1rem 0 math.div(120, 16) * 1rem;
+}
+.l-lower {
+  background: s.$c-base--alt;
+}
+.c-lower {
+  // 下層キービジュアル
+  &-hero {
+    margin-top: max(20px, math.div(60, 16) * 1rem);
+    // background: #222;
+    &Inner {
+      // margin-top: calc((100 / 16 * 1rem) + 70px);
+      // margin-top: math.div(60, 16) * 1rem;
+      // height: math.div(360, 16) * 1rem;
+      // @include s.flex-center;
+      // display: flex;
+      // align-items: center;
+    }
+  }
+  // 下層ページタイトル
+  &-pageTitle {
+    font: {
+      family: s.$f-en;
+      size: math.div(80, 16) * 1rem;
+      weight: 600;
+    }
+    // line-height: 1.1;
+    // color: s.$main;
+    // ヘッダーの高さ分、margin-topを指定する。
+    // margin-top: calc(max(30px, 50 / 16 * 1rem) + max(10px, 20 / 16 * 1rem));
+    letter-spacing: s.$spacing--en;
+    // letter-spacing: -.03em;
+  }
+  &-subPageTitle {
+    margin-top: 0.3em;
+  }
+  &-title {
+    font: {
+      size: math.div(26, 16) * 1rem;
+      weight: 400;
+      family: s.$f-en;
+    }
+    margin-bottom: 0.6em;
+    letter-spacing: s.$spacing--en;
+  }
+}
+/* ----------------------- */
+/*フリーランスWORKS一覧
+/* ----------------------- */
+.worksArchive {
+  &__list {
+    @include s.sm {
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: math.div(50, 16) * 1rem;
+      column-gap: math.div(12, 16) * 1rem;
+    }
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: math.div(50, 16) * 1rem;
+    column-gap: math.div(15, 16) * 1rem;
+    &-item {
+      &:hover {
+        img {
+          filter: saturate(100%) brightness(102%);
+          // opacity: .4;
+        }
+      }
+    }
+    &-image {
+      padding-top: math.div(200, 383.33) * 100%;
+      position: relative;
+      img {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: saturate(70%) brightness(90%);
+        transition: .3s;
+      }
+    }
+    &-title {
+      font: {
+        weight: 600;
+      }
+      line-height: 1.5;
+      // padding: {
+      //   top: .8em;
+      //   bottom: .6em;
+      // }
+      padding: 1em 0 .5em;
+      margin-bottom: 0.7em;
+      border-bottom: 1px dashed s.$border;
+      // margin: .8em 0;
+    }
+    &-text {
+      font: {
+        // weight: 300;
+      }
+    }
+  }
+}
+/* ----------------------- */
+/*フリーランスWORKS詳細
+/* ----------------------- */
+.notFound {
+  width: 100vw;
+  height: 100vh;
+  @include s.flex-center;
+  font: {
+    size: math.div(20, 16) * 1rem;
+    family: s.$f-en;
+  }
+}
+.workDetail {
+  &__figure {
+    padding-top: math.div(200, 383.33) * 100%;
+    position: relative;
+    // margin-bottom: math.div(30, 16) * 1rem;;
+
+    img {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      // height: auto;
+    }
+  }
+  &__title {
+    margin-top: math.div(30, 16) * 1rem;
+    font: {
+      size: math.div(28, 16) * 1rem;
+    }
+  }
+  &__link {
+    display: inline-block;
+    text-decoration: underline;
+    margin-top: 0.8em;
+    margin-top: 1em;
+    margin-bottom: math.div(30, 16) * 1rem;
+    font: {
+      size: max(10px, math.div(16, 16) * 1rem);
+    }
+    transition: 0.3s;
+    &::after {
+      content: "";
+      display: inline-block;
+      width: 0.8em;
+      height: 0.8em;
+      @include s.bg("arrow.svg");
+      background-size: contain;
+      // position: relative;
+      // top: .2em;
+      margin-left: 0.5em;
+    }
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  &__text {
+    // margin-top: 1.8em;
+    border-top: 1px dashed s.$border;
+    padding-top: math.div(30, 16) * 1rem;
+  }
+}

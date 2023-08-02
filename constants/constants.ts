@@ -30,6 +30,8 @@ export const worksTextAnim = [
 export const servicesTextAnim = ["FEATURED SERVICES", "FEATURED SERVICES"];
 export const skillsTextAnim = ["CORE SKILLS", "CORE SKILLS"];
 export const contactTextAnim = ["PLEASE MESSAGE", "PLEASE MESSAGE"];
+export const worksTitleAnim = ["FREELANCE WORKS", "FREELANCE WORKS"];
+export const workDetailTitleAnim = ["WORK DETAIL", "WORK DETAIL"];
 
 // react版のswiperはループモードの時、画像4枚以上必要。3枚だと空白が生まれてしまう。
 export const worksImages = [
@@ -80,5 +82,71 @@ export const worksImages = [
     height: 392.84,
     // href: "",
     class: "comingsoon"
+  },
+];
+
+export const worksArchive = [
+  {
+    src: "/img/works2.webp",
+    title: "DISM株式会社",
+    text: "Web制作会社のコーポレートサイトです。全ページのデザインとコーディングを担当いたしました。",
+    width: 383.33,
+    height: 200,
+    href: "https://www.dism.group/",
+  },
+  {
+    src: "/img/works6.webp",
+    title: "achieved株式会社",
+    text: "コンサルティング会社のコーポレートサイトです。全ページのデザインとコーディングを担当いたしました。",
+    width: 383.33,
+    height: 200,
+    href: "https://achieved.jp/",
+  },
+  {
+    src: "/img/works1.webp",
+    title: "建築会社ブランディングサイト",
+    text: "建築会社のブランディングサイトです。全ページのデザインを担当いたしました。",
+    width: 383.33,
+    height: 200,
+    href: "https://design.goubarayoshiyuki.com/kentiku/img.php?imgno=1",
+  },
+  {
+    src: "/img/works4.webp",
+    title: "主腸塾",
+    text: "ブログサイトを構築し、下層ページにメールマガジン登録フォーム付のLPを制作いたしました。",
+    width: 383.33,
+    height: 200,
+    href: "https://olddarm.jp/",
+  },
+  {
+    src: "/img/works3.webp",
+    title: "YOJITOKI ECサイト",
+    text: "陶器ECサイトを1から構築いたしました。デザイン・コーディングを行い、決済システムに「stripe」を導入しています。",
+    width: 383.33,
+    height: 200,
+    href: "https://yojitoki.vercel.app/",
+  },
+  {
+    src: "/img/works7.webp",
+    title: "郷原デザイン事務所",
+    text: "わたしのサービスサイトです。サイト設計、ロゴ作成、デザイン、コーディングを行っています",
+    width: 383.33,
+    height: 200,
+    href: "https://svc.goubarayoshiyuki.com/",
+  },
+]
+
+export const footerLinksData = [
+  { href: "/", text: "- HOME -" },
+  {
+    href: "https://private.goubarayoshiyuki.com/",
+    text: "- COMPANY WORKS -",
+    isExternal: true,
+  },
+  { href: "/works/", text: "- FREELANCE WORKS -" },
+  {
+    href: "https://svc.goubarayoshiyuki.com/",
+    text: "- MY SERVICES -",
+    isExternal: true,
   },
 ];
