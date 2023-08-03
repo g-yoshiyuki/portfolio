@@ -23,8 +23,8 @@ const WorksArchivePage: NextPage = () => {
           <ul className="worksArchive__list">
             {worksArchive.map((works, index) => (
               <li className="worksArchive__list-item" key={index}>
-                <Link href={`/works/${index}`}>
-                  <figure className="worksArchive__list-image">
+                <Link href={`/works/${index}`} className="hoverFilm--card">
+                  <figure className="worksArchive__list-image hoverFilm">
                     <Image
                       src={works.src}
                       alt={works.title}

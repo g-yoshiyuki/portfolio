@@ -5,7 +5,8 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation, EffectCoverflow } from "swiper";
 import "swiper/css/pagination";
-import { worksImages } from "../constants/constants";
+import { worksArchive } from "../constants/constants";
+import Link from "next/link";
 
 
 const Slider = () => {
@@ -42,24 +43,24 @@ const Slider = () => {
           },
         }}
       >
-        {worksImages.map((image, index) => (
+        {worksArchive.map((work, index) => (
           <SwiperSlide key={index}>
             <div className="works__item">
-              <a  className={`works__item-link ${image.class}`}>
+              <Link  href={`/works/${index}`} className={`works__item-link ${work.class}`}>
                 <Image
-                  src={image.src}
-                  width={image.width}
-                  height={image.height}
-                  alt={image.alt}
-                  sizes="100vw"
-                  style={{
-                    width: "100%",
-                    height: "auto",
-                  }}
+                  src={work.src}
+                  width={work.width}
+                  height={work.height}
+                  alt={work.title}
+                  // sizes="100vw"
+                  // style={{
+                  //   width: "100%",
+                  //   height: "auto",
+                  // }}
                   loading="eager"
                   quality={100}
                 />
-              </a>
+              </Link>
             </div>
           </SwiperSlide>
         ))}
