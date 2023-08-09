@@ -15,7 +15,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 999;
   &__text {
     font: {
       size: math.div(20, 16) * 1rem;

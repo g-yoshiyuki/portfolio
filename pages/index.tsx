@@ -7,7 +7,6 @@ import Hero from "../components/Hero";
 import { skillsData, skillsTextAnim } from "../constants/constants";
 import Slider from "../components/Slider";
 import WorksBackground from "../components/WorksBackground";
-import LoadingScreen from "../components/LoadingScreen";
 import Link from "next/link";
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -247,7 +246,6 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <LoadingScreen />
       <main>
         <Hero />
         <aside className="l-services">

@@ -9,7 +9,8 @@ import { Footer } from "../components/Footer";
 import Head from "next/head";
 import { DefaultSeo } from "next-seo";
 import { defaultSEO } from "../constants/next-seo.config";
-import router from "next/router";
+import { useRouter } from 'next/router';
+import LoadingScreen from "../components/LoadingScreen";
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
@@ -39,6 +40,7 @@ function isSafari() {
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   // デバイス判定。初期値に判定結果が入る。
   const [isMobile, setIsMobile] = useState<boolean>(() => {
@@ -200,6 +202,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     };
   }, [isMobile, isBrowserSafari]);
 
+  // LoadingScreen.tsxをindex.tsxで読み込むと、header.tsxのDOMが先に読み込まれるようになり、ローディング画面の上に一瞬ヘッダーが表示されてしまう。これを防ぐために、_app.tsxでloadingScreen.tsxを読み込んでいる。
+
   return (
     <>
       <AnimationProvider>
@@ -210,6 +214,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           />
         </Head>
         <DefaultSeo {...defaultSEO} />
+        {router.pathname === '/' && <LoadingScreen />}
         <Header />
         <div id="viewport" className={isMobile ? "mobileDevice" : ""}>
           <div
