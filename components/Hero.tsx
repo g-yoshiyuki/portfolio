@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect } from "react";
+import { useRef, useLayoutEffect, useEffect } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
@@ -17,8 +17,11 @@ const Hero = () => {
   const { animationFinished } = useAnimationContext();
   const heroContentRef = useRef<HTMLDivElement>(null);
   const heroImageRef = useRef<HTMLDivElement>(null);
+  // クライアントサイドでのみ動作するuseLayoutEffectを定義
+  const useIsomorphicLayoutEffect =
+    typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const parentTl = gsap.timeline();
     const heroContent = heroContentRef.current;
     const heroImage = heroImageRef.current;

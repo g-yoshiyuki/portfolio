@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Image from "next/image";
-import { useRef, useLayoutEffect } from "react";
+import { useRef, useLayoutEffect, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Hero from "../components/Hero";
@@ -35,8 +35,11 @@ const Home: NextPage = () => {
     end?: string;
   }
   const parallaxImageRef = useRef<HTMLImageElement>(null);
+  // クライアントサイドでのみ動作するuseLayoutEffectを定義
+  const useIsomorphicLayoutEffect =
+    typeof window !== "undefined" ? useLayoutEffect : useEffect;
   // 画像パララックス
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     // gsap.utils.toArray関数は、指定されたCSSセレクタに一致するすべての要素を取得し、それらを配列に変換する
     (gsap.utils.toArray(".js-parallax") as HTMLElement[]).forEach(
       (wrap: HTMLElement) => {
@@ -278,7 +281,7 @@ const Home: NextPage = () => {
                       </h3>
                       <span className="services__list-icon">
                         <span>
-                          <img src="/img/arrow.svg?111" />
+                          <img src="/img/arrow.svg?111" alt="WEBサイト制作" width="24" height="23.72"/>
                         </span>
                       </span>
                     </a>

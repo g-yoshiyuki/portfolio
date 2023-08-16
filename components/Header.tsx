@@ -14,9 +14,12 @@ export const Header = () => {
   const headerRef = useRef<HTMLHeadingElement | null>(null);
   const hmRef = useRef<HTMLDivElement | null>(null);
   const navRef = useRef<HTMLElement | null>(null);
+  // クライアントサイドでのみ動作するuseLayoutEffectを定義
+  const useIsomorphicLayoutEffect =
+    typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
   // ローディング完了後にheaderをおろす
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const header = headerRef.current;
     if (header) {
       gsap.set(header, {
@@ -134,17 +137,16 @@ export const Header = () => {
       <header className="header" ref={headerRef}>
         <div className="container">
           <Link href="/" className="header__logo">
-            <img
-              src="/img/logo.svg"
-              alt="郷原 芳幸"
-              width="50"
-              height="50"
-            />
+            <img src="/img/logo.svg" alt="郷原 芳幸" width="50" height="50" />
           </Link>
           <nav className="header__nav" ref={navRef}>
             <ul className="header__nav-list">
               <li className="header__nav-item">
-                <Link href="/" className="header__nav-link" onClick={handleHmClick}>
+                <Link
+                  href="/"
+                  className="header__nav-link"
+                  onClick={handleHmClick}
+                >
                   HOME
                 </Link>
               </li>
@@ -159,7 +161,11 @@ export const Header = () => {
                 </a>
               </li>
               <li className="header__nav-item">
-                <Link href="/works/" className="header__nav-link" onClick={handleHmClick}>
+                <Link
+                  href="/works/"
+                  className="header__nav-link"
+                  onClick={handleHmClick}
+                >
                   FREELANCE WORKS
                 </Link>
               </li>

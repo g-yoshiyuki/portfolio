@@ -12,18 +12,21 @@ const LoadingScreen: React.FC = () => {
   const loadingScreenRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const progressBarInnerRef = useRef<HTMLDivElement>(null);
-  const { animationFinished,setAnimationFinished} = useAnimationContext();
+  const { animationFinished, setAnimationFinished } = useAnimationContext();
 
   const loadingText = "LOADING".split("").map((char, index) => (
     <span key={index} className="char">
       {char}
     </span>
   ));
+  // クライアントサイドでのみ動作するuseLayoutEffectを定義
+  const useIsomorphicLayoutEffect =
+    typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
-  useLayoutEffect(() => {
-    if(animationFinished) {
+  useIsomorphicLayoutEffect(() => {
+    if (animationFinished) {
       loadingScreenRef.current!.style.display = "none";
-      return
+      return;
     }
     const tl = gsap.timeline();
     tl.set(`.char`, { willChange: "transform, opacity" }).to(`.char`, {
@@ -101,7 +104,6 @@ const LoadingScreen: React.FC = () => {
     tl.add(() => {
       setAnimationFinished(true);
     }, "-=.55");
-
   }, [setAnimationFinished]);
 
   return (

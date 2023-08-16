@@ -70,7 +70,7 @@ export const Footer = () => {
               ))}
             </ul>
             <div className="footer__logo">
-              <img src="/img/logo.svg" alt="" />
+              <img src="/img/logo.svg" alt="" width="60" height="60"/>
             </div>
           </div>
           <span className="footer__copy">&copy; goubara yoshiyuki</span>

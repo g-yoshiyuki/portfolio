@@ -1,6 +1,6 @@
 import type { AppProps } from "next/app";
 import "../styles/style.scss";
-import { useRef, useLayoutEffect, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { AnimationProvider } from "../contexts/AnimationContext";
@@ -9,7 +9,7 @@ import { Footer } from "../components/Footer";
 import Head from "next/head";
 import { DefaultSeo } from "next-seo";
 import { defaultSEO } from "../constants/next-seo.config";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import LoadingScreen from "../components/LoadingScreen";
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -163,7 +163,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [router.events]);
 
   // 画面リサイズ時の処理と、初期表示時のScrollTriggerの設定
-  useLayoutEffect(() => {
+  useEffect(() => {
     // モバイルデバイスまたはSafariの場合、スムーズスクロールを無効にする
     if (isMobile || isBrowserSafari) {
       if (scrollContainerRef.current) {
@@ -214,7 +214,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           />
         </Head>
         <DefaultSeo {...defaultSEO} />
-        {router.pathname === '/' && <LoadingScreen />}
+        {router.pathname === "/" && <LoadingScreen />}
         <Header />
         <div id="viewport" className={isMobile ? "mobileDevice" : ""}>
           <div

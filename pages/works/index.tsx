@@ -1,19 +1,23 @@
 import { NextPage } from "next";
-import React, { useLayoutEffect } from "react";
+import React, { useEffect } from "react";
 import LowerHero from "../../components/LowerHero";
 import { useAnimationContext } from "../../contexts/AnimationContext";
 import LowerTitleAnim from "../../components/LowerTitleAnim";
 import { worksArchive, worksTitleAnim } from "../../constants/constants";
 import Image from "next/image";
 import Link from "next/link";
+import { worksSEO } from "../../constants/next-seo.config";
+import { NextSeo } from "next-seo";
 
 const WorksArchivePage: NextPage = () => {
   const { setAnimationFinished } = useAnimationContext();
-  useLayoutEffect(() => {
+  useEffect(() => {
     // 下層に直接アクセスした時にheaderを降ろす。
     setAnimationFinished(true);
   }, [setAnimationFinished]);
   return (
+    <>
+    <NextSeo {...worksSEO} />
     <main className="l-lower">
       <LowerTitleAnim lowerPageTitle={worksTitleAnim} />
       <LowerHero pageTitle="WORKS" subPageTitle="フリーランス制作実績一覧" />
@@ -43,6 +47,7 @@ const WorksArchivePage: NextPage = () => {
         </div>
       </section>
     </main>
+    </>
   );
 };
 
