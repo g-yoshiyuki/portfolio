@@ -27,7 +27,7 @@ export const defaultSEO = {
 export const worksSEO = {
   title: '制作実績 | GOUBARA YOSHIYUKI PORTFOLIO',
   description: 'Webデザイナー郷原 芳幸の制作実績をご紹介します。',
-  canonical: `${process.env.NEXT_PUBLIC_BASE_URL}works`,
+  canonical: `${process.env.NEXT_PUBLIC_BASE_URL}works/`,
   openGraph: {
     title: '制作実績 | GOUBARA YOSHIYUKI PORTFOLIO',
     description: 'Webデザイナー郷原 芳幸の制作実績をご紹介します。',

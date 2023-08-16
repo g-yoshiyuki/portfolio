@@ -29,7 +29,7 @@ const WorkDetailPage = () => {
 
   const dynamicSEO = {
     ...worksSEO,
-    canonical: `${process.env.NEXT_PUBLIC_BASE_URL}works/${id}`,
+    canonical: `${process.env.NEXT_PUBLIC_BASE_URL}works/${id}/`,
   };
 
   return (

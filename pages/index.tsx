@@ -8,6 +8,7 @@ import { skillsData, skillsTextAnim } from "../constants/constants";
 import Slider from "../components/Slider";
 import WorksBackground from "../components/WorksBackground";
 import Link from "next/link";
+import Head from "next/head";
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
@@ -249,6 +250,13 @@ const Home: NextPage = () => {
 
   return (
     <>
+      {/* バーセルにアップするときだけ使用する。ビルドする際はコメントアウトする。 */}
+      <Head>
+        <meta
+          name="google-site-verification"
+          content="GuuntvABehXCRVe0zZW24deqBFTTAcjYShykyGZF764"
+        />
+      </Head>
       <main>
         <Hero />
         <aside className="l-services">
@@ -281,7 +289,12 @@ const Home: NextPage = () => {
                       </h3>
                       <span className="services__list-icon">
                         <span>
-                          <img src="/img/arrow.svg?111" alt="WEBサイト制作" width="24" height="23.72"/>
+                          <img
+                            src="/img/arrow.svg?111"
+                            alt="WEBサイト制作"
+                            width="24"
+                            height="23.72"
+                          />
                         </span>
                       </span>
                     </a>
