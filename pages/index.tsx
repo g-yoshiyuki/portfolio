@@ -8,7 +8,6 @@ import { skillsData, skillsTextAnim } from "../constants/constants";
 import Slider from "../components/Slider";
 import WorksBackground from "../components/WorksBackground";
 import Link from "next/link";
-import Head from "next/head";
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
@@ -20,11 +19,17 @@ if (typeof window !== "undefined") {
 // ※通常、onCompleteでwillChangeをautoにするのが理想だが、Safariのみ、解除するとガクつきが起こる。
 // 以下のSafari判定でSafariの時はautoにしないようにする。
 // Safariを判定する関数を追加
-function isSafari() {
-  if (typeof window === "undefined") return false;
-  const ua = window.navigator.userAgent.toLowerCase();
-  return ua.indexOf("safari") !== -1 && ua.indexOf("chrome") === -1;
-}
+// function isSafari() {
+//   if (typeof window === "undefined") return false;
+//   const ua = window.navigator.userAgent.toLowerCase();
+//   return ua.indexOf("safari") !== -1 && ua.indexOf("chrome") === -1;
+// }
+
+// useLayoutEffectについて
+// 処理のながれは、サーバーサイドでの処理が完了してから、ブラウザでのクライアントサイドの処理が始まる。
+// useLayoutEffectは、DOMの変更が行われた直後に同期的に実行されるため、特定のアニメーションやレイアウトの変更を即座に処理するのに適している。
+// しかし、サーバーでの処理中(仮想環境構築中)に発動してしまう可能性があるためDOMがないのでエラーになる。
+// useEffectはクライアントサイトでしか実行されない。
 
 const Home: NextPage = () => {
   type Selector = string;
@@ -60,9 +65,9 @@ const Home: NextPage = () => {
             return;
           },
           onComplete: () => {
-            if (!isSafari()) {
+            // if (!isSafari()) {
               wrap.style.willChange = "auto";
-            }
+            // }
             return;
           },
         });
@@ -120,9 +125,9 @@ const Home: NextPage = () => {
           return;
         },
         onComplete: () => {
-          if (!isSafari()) {
+          // if (!isSafari()) {
             el.style.willChange = "auto";
-          }
+          // }
           return;
         },
       });
@@ -157,9 +162,9 @@ const Home: NextPage = () => {
               duration: 0.1,
               onComplete: () =>
                 skillsElements.forEach((el) => {
-                  if (!isSafari()) {
+                  // if (!isSafari()) {
                     el.style.willChange = "auto";
-                  }
+                  // }
                 }),
               delay: 0.5,
             }
@@ -186,9 +191,9 @@ const Home: NextPage = () => {
               {
                 duration: 0.1,
                 onComplete: () => {
-                  if (!isSafari()) {
+                  // if (!isSafari()) {
                     worksBg.style.willChange = "auto";
-                  }
+                  // }
                 },
                 delay: 0.5,
               }
@@ -210,10 +215,10 @@ const Home: NextPage = () => {
           ...options,
           onStart: () => (element.style.willChange = "opacity, transform"),
           onComplete: () => {
-            if (!isSafari()) {
+            // if (!isSafari()) {
               // Safari の場合は willChange を自動に設定しない
               element.style.willChange = "auto";
-            }
+            // }
           },
         };
         // スマホ時にサービスリストが縦並びになったらstaggerを解除する
@@ -251,12 +256,12 @@ const Home: NextPage = () => {
   return (
     <>
       {/* バーセルにアップするときだけ使用する。ビルドする際はコメントアウトする。 */}
-      <Head>
+      {/* <Head>
         <meta
           name="google-site-verification"
           content="GuuntvABehXCRVe0zZW24deqBFTTAcjYShykyGZF764"
         />
-      </Head>
+      </Head> */}
       <main>
         <Hero />
         <aside className="l-services">

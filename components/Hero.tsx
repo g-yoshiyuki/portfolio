@@ -6,12 +6,16 @@ import { useAnimationContext } from "../contexts/AnimationContext";
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
+// will-changeはブラウザにアニメーションする要素であることを事前に伝える。
+// 指定している間は常に負荷がかかっている。
+// アニメーションが完了したら、ブラウザを問わずwill-change: auto;を指定する。
+
 // Safariを判定する関数を追加
-function isSafari() {
-  if (typeof window === "undefined") return false;
-  const ua = window.navigator.userAgent.toLowerCase();
-  return ua.indexOf("safari") !== -1 && ua.indexOf("chrome") === -1;
-}
+// function isSafari() {
+//   if (typeof window === "undefined") return false;
+//   const ua = window.navigator.userAgent.toLowerCase();
+//   return ua.indexOf("safari") !== -1 && ua.indexOf("chrome") === -1;
+// }
 
 const Hero = () => {
   const { animationFinished } = useAnimationContext();
@@ -54,9 +58,9 @@ const Hero = () => {
           gsap.set(element, { willChange: "transform, opacity" });
         },
         onComplete: function () {
-          if (!isSafari()) {
+          // if (!isSafari()) {
             gsap.set(element, { willChange: "auto" });
-          }
+          // }
         },
       });
       tl.to(
@@ -90,9 +94,9 @@ const Hero = () => {
             gsap.set(heroImage, { willChange: "transform, opacity" });
           },
           onComplete: function () {
-            if (!isSafari()) {
+            // if (!isSafari()) {
               gsap.set(heroImage, { willChange: "auto" });
-            }
+            // }
           },
         }),
         0.6

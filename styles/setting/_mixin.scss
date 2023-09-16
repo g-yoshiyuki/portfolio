@@ -165,20 +165,8 @@
   // background-size: 100%;
 	@content;
 }
-// imgの下層にディレクトリをつくる場合
-@mixin bg_pass($fileName,$path:"../images/",$dir: "") {
-	background-image: url($path + $dir + $fileName);
-	background-repeat: no-repeat;
-	background-position: 50% 50%;
-	@content;
-}
 
-@mixin enable-overflow-scrolling() {
-  -webkit-overflow-scrolling: touch;
-  overflow-scrolling: touch;
-  // filterプラグインで未知のプロパティを処理する
-  @include filter(overflow-scrolling, touch);
-}
+
 
 
 // 例

@@ -1,0 +1,14 @@
+RewriteEngine On
+RewriteBase /
+
+# .htmlを削除
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [L]
+
+# works に対する特別なルール
+# works.htmlとworksディレクトリが同階層にあるため、
+# /worksにアクセスした時、末尾に/が入ってしまう。
+# urlにバラつきが生まれるため、以下でリダイレクト
+RewriteCond %{REQUEST_URI} ^/works$
+RewriteRule ^(.*)$ /works.html [L]

@@ -3,11 +3,11 @@ import { useRef, useLayoutEffect, useEffect } from "react";
 import { gsap } from "gsap";
 import Link from "next/link";
 
-function isSafari() {
-  if (typeof window === "undefined") return false;
-  const ua = window.navigator.userAgent.toLowerCase();
-  return ua.indexOf("safari") !== -1 && ua.indexOf("chrome") === -1;
-}
+// function isSafari() {
+//   if (typeof window === "undefined") return false;
+//   const ua = window.navigator.userAgent.toLowerCase();
+//   return ua.indexOf("safari") !== -1 && ua.indexOf("chrome") === -1;
+// }
 
 export const Header = () => {
   const { animationFinished } = useAnimationContext();
@@ -37,9 +37,9 @@ export const Header = () => {
             gsap.set(header, { willChange: "opacity, transform" });
           },
           onComplete: function () {
-            if (!isSafari()) {
+            // if (!isSafari()) {
               gsap.set(header, { willChange: "auto" });
-            }
+            // }
           },
         });
       }

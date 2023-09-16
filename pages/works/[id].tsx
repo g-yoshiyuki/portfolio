@@ -8,10 +8,40 @@ import Image from "next/image";
 import Link from "next/link";
 import { worksSEO } from "../../constants/next-seo.config";
 import { NextSeo } from "next-seo";
+import { GetStaticPaths, GetStaticProps } from "next";
 
-const WorkDetailPage = () => {
+interface Work {
+  id: number;
+  src: string;
+  title: string;
+  width: number;
+  height: number;
+  href: string;
+  text: string;
+}
+
+// getStaticPaths関数を追加
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = worksArchive.map((work, index) => ({
+    params: { id: index.toString() },
+  }));
+  return { paths, fallback: false };
+};
+
+export const getStaticProps: GetStaticProps<{ work: Work }> = async ({ params }) => {
+  const id = params?.id;
+  const work = worksArchive[Number(id)];
+  if (!work) {
+    return { notFound: true };
+  }
+  return { props: { work: { id: Number(id), ...work } } };  // id プロパティを追加
+};
+
+
+
+const WorkDetailPage: React.FC<{ work: Work }> = ({ work }) => {
   const router = useRouter();
-  const { id } = router.query;
+  // const { id } = router.query;
 
   const { setAnimationFinished } = useAnimationContext();
   useEffect(() => {
@@ -19,17 +49,17 @@ const WorkDetailPage = () => {
     setAnimationFinished(true);
   }, [setAnimationFinished]);
 
-  // URLのIDに対応する実績データを取得
-  const work = worksArchive[Number(id)];
-
-  // 実績データが存在しない場合は404ページを表示
+  // フォールバック処理を追加
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
   if (!work) {
     return <div className="notFound">This work does not exist.</div>;
   }
 
   const dynamicSEO = {
     ...worksSEO,
-    canonical: `${process.env.NEXT_PUBLIC_BASE_URL}works/${id}/`,
+    canonical: `${process.env.NEXT_PUBLIC_BASE_URL}works/${work.id}`,
   };
 
   return (

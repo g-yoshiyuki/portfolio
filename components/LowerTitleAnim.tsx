@@ -1,4 +1,4 @@
-import { worksTitleAnim } from "../constants/constants";
+// import { worksTitleAnim } from "../constants/constants";
 
 type LowerTitleAnimProps = {
   lowerPageTitle: string[];

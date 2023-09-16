@@ -2,12 +2,16 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { useAnimationContext } from "../contexts/AnimationContext";
 
-function isSafari() {
-  if (typeof window === "undefined") return false;
-  const ua = window.navigator.userAgent.toLowerCase();
-  return ua.indexOf("safari") !== -1 && ua.indexOf("chrome") === -1;
-}
+// function isSafari() {
+//   if (typeof window === "undefined") return false;
+//   const ua = window.navigator.userAgent.toLowerCase();
+//   return ua.indexOf("safari") !== -1 && ua.indexOf("chrome") === -1;
+// }
 
+// ローディング画面はdisplay: none;を指定するため、will-changeをautoにする必要はない
+// will-changeはブラウザにアニメーションする要素であることを事前に伝える。
+// 指定している間は常に負荷がかかっている。
+// アニメーションが完了したら、ブラウザを問わずwill-change: auto;を指定する。
 const LoadingScreen: React.FC = () => {
   const loadingScreenRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
@@ -34,11 +38,11 @@ const LoadingScreen: React.FC = () => {
       stagger: 0.05 /*テキスト間の遅延時間*/,
       duration: 0.5,
       ease: "power2.out",
-      onComplete: function () {
-        if (!isSafari()) {
-          gsap.set(`.char`, { willChange: "auto" });
-        }
-      },
+      // onComplete: function () {
+      //   if (!isSafari()) {
+      //     gsap.set(`.char`, { willChange: "auto" });
+      //   }
+      // },
     });
     tl.set([progressBarRef.current, progressBarInnerRef.current], {
       willChange: "transform",
@@ -65,22 +69,22 @@ const LoadingScreen: React.FC = () => {
       transform: "scaleX(0)",
       transformOrigin: "right",
       ease: "expo.out",
-      onComplete: function () {
-        if (!isSafari()) {
-          gsap.set(progressBarRef.current, { willChange: "auto" });
-        }
-      },
+      // onComplete: function () {
+      //   if (!isSafari()) {
+      //     gsap.set(progressBarRef.current, { willChange: "auto" });
+      //   }
+      // },
     });
     tl.to(progressBarInnerRef.current, {
       duration: 0.5,
       transform: "scaleX(0)",
       transformOrigin: "right",
       ease: "expo.out",
-      onComplete: function () {
-        if (!isSafari()) {
-          gsap.set(progressBarInnerRef.current, { willChange: "auto" });
-        }
-      },
+      // onComplete: function () {
+      //   if (!isSafari()) {
+      //     gsap.set(progressBarInnerRef.current, { willChange: "auto" });
+      //   }
+      // },
     });
     tl.set(loadingScreenRef.current, { willChange: "opacity" }).to(
       loadingScreenRef.current,
@@ -92,9 +96,9 @@ const LoadingScreen: React.FC = () => {
           // ローディング完了通知
           if (loadingScreenRef.current) {
             loadingScreenRef.current.style.display = "none";
-            if (!isSafari()) {
-              gsap.set(loadingScreenRef.current, { willChange: "auto" });
-            }
+            // if (!isSafari()) {
+            //   gsap.set(loadingScreenRef.current, { willChange: "auto" });
+            // }
           }
         },
       }
