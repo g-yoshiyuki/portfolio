@@ -88,6 +88,7 @@ export const workDetailTitleAnim = ["WORK DETAIL", "WORK DETAIL"];
 export const worksArchive = [
   {
     src: "/img/works1.webp",
+    srcSp: "/img/sp/works1.webp",
     title: "建築会社ブランディングサイト",
     text: "建築会社のブランディングサイトです。全ページのデザインを担当いたしました。",
     width: 773.29,
@@ -97,6 +98,7 @@ export const worksArchive = [
   },
   {
     src: "/img/works2.webp",
+    srcSp: "/img/sp/works2.webp",
     title: "DISM株式会社",
     text: "Web制作会社のコーポレートサイトです。全ページのデザインとコーディングを担当いたしました。",
     width: 773.29,
@@ -106,6 +108,7 @@ export const worksArchive = [
   },
   {
     src: "/img/works6.webp",
+    srcSp: "/img/sp/works6.webp",
     title: "achieved株式会社",
     text: "コンサルティング会社のコーポレートサイトです。全ページのデザインとコーディングを担当いたしました。",
     width: 773.29,
@@ -115,6 +118,7 @@ export const worksArchive = [
   },
   {
     src: "/img/works4.webp",
+    srcSp: "/img/sp/works4.webp",
     title: "主腸塾",
     text: "ブログサイトを構築し、下層ページにメールマガジン登録フォーム付のLPを制作いたしました。",
     width: 773.29,
@@ -124,6 +128,7 @@ export const worksArchive = [
   },
   {
     src: "/img/works7.webp",
+    srcSp: "/img/sp/works7.webp",
     title: "郷原デザイン事務所",
     text: "わたしのサービスサイトです。サイト設計、ロゴ作成、デザイン、コーディングを行っています",
     width: 773.29,
@@ -133,6 +138,7 @@ export const worksArchive = [
   },
   {
     src: "/img/works3.webp",
+    srcSp: "/img/sp/works3.webp",
     title: "YOJITOKI ECサイト",
     text: "陶器ECサイトを1から構築いたしました。デザイン・コーディングを行い、決済システムに「stripe」を導入しています。",
     width: 773.29,

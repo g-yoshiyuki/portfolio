@@ -125,11 +125,11 @@ function MyApp({ Component, pageProps }: AppProps) {
           container.style.willChange = "transform";
         }
       },
-      onComplete: () => {
-        if (container && !isSafari()) {
-          container.style.willChange = "auto";
-        }
-      },
+      // onComplete: () => {
+      //   if (container && !isSafari()) {
+      //     container.style.willChange = "auto";
+      //   }
+      // },
     });
     tweenInstance = tween;
     // Tweenとスクロールトリガーの更新を開始。

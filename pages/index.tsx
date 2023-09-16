@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import Image from "next/image";
 import { useRef, useLayoutEffect, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
@@ -66,7 +65,7 @@ const Home: NextPage = () => {
           },
           onComplete: () => {
             // if (!isSafari()) {
-              wrap.style.willChange = "auto";
+            wrap.style.willChange = "auto";
             // }
             return;
           },
@@ -126,7 +125,7 @@ const Home: NextPage = () => {
         },
         onComplete: () => {
           // if (!isSafari()) {
-            el.style.willChange = "auto";
+          el.style.willChange = "auto";
           // }
           return;
         },
@@ -163,7 +162,7 @@ const Home: NextPage = () => {
               onComplete: () =>
                 skillsElements.forEach((el) => {
                   // if (!isSafari()) {
-                    el.style.willChange = "auto";
+                  el.style.willChange = "auto";
                   // }
                 }),
               delay: 0.5,
@@ -192,7 +191,7 @@ const Home: NextPage = () => {
                 duration: 0.1,
                 onComplete: () => {
                   // if (!isSafari()) {
-                    worksBg.style.willChange = "auto";
+                  worksBg.style.willChange = "auto";
                   // }
                 },
                 delay: 0.5,
@@ -216,8 +215,8 @@ const Home: NextPage = () => {
           onStart: () => (element.style.willChange = "opacity, transform"),
           onComplete: () => {
             // if (!isSafari()) {
-              // Safari の場合は willChange を自動に設定しない
-              element.style.willChange = "auto";
+            // Safari の場合は willChange を自動に設定しない
+            element.style.willChange = "auto";
             // }
           },
         };
@@ -392,7 +391,7 @@ const Home: NextPage = () => {
           </div>
         </section>
         <div className="l-image">
-          <Image
+          {/* <Image
             src="/img/works-bg.webp"
             width={2000}
             height={1333}
@@ -407,7 +406,20 @@ const Home: NextPage = () => {
             className="js-parallax"
             data-y="-12vw"
             loading="eager"
-          />
+          /> */}
+          <picture>
+            <source media="(max-width: 640px)" srcSet="/img/sp/works-bg.webp" />
+            <img
+              src="/img/works-bg.webp"
+              width={2000}
+              height={1333}
+              alt="HISTORY"
+              ref={parallaxImageRef}
+              className="js-parallax"
+              data-y="-12vw"
+              loading="eager"
+            />
+          </picture>
         </div>
         <section className="history bg-gray">
           <div className="container container--s">
@@ -519,7 +531,7 @@ const Home: NextPage = () => {
                 </p>
               </div>
               <div className="profile__info-image js-textAnim">
-                <Image
+                {/* <Image
                   src="/img/image.webp?999"
                   width={176}
                   height={223.52}
@@ -531,6 +543,12 @@ const Home: NextPage = () => {
                   }}
                   loading="eager"
                   quality={100}
+                /> */}
+                <img
+                  src="/img/image.webp"
+                  width={176}
+                  height={223.52}
+                  alt="郷原 芳幸"
                 />
               </div>
             </div>

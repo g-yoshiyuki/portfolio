@@ -4,7 +4,6 @@ import { useAnimationContext } from "../../contexts/AnimationContext";
 import { useEffect } from "react";
 import LowerTitleAnim from "../../components/LowerTitleAnim";
 import LowerHero from "../../components/LowerHero";
-import Image from "next/image";
 import Link from "next/link";
 import { worksSEO } from "../../constants/next-seo.config";
 import { NextSeo } from "next-seo";
@@ -13,6 +12,7 @@ import { GetStaticPaths, GetStaticProps } from "next";
 interface Work {
   id: number;
   src: string;
+  srcSp: string;
   title: string;
   width: number;
   height: number;
@@ -28,16 +28,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths, fallback: false };
 };
 
-export const getStaticProps: GetStaticProps<{ work: Work }> = async ({ params }) => {
+export const getStaticProps: GetStaticProps<{ work: Work }> = async ({
+  params,
+}) => {
   const id = params?.id;
   const work = worksArchive[Number(id)];
   if (!work) {
     return { notFound: true };
   }
-  return { props: { work: { id: Number(id), ...work } } };  // id プロパティを追加
+  return { props: { work: { id: Number(id), ...work } } }; // id プロパティを追加
 };
-
-
 
 const WorkDetailPage: React.FC<{ work: Work }> = ({ work }) => {
   const router = useRouter();
@@ -71,14 +71,26 @@ const WorkDetailPage: React.FC<{ work: Work }> = ({ work }) => {
         <section className="workDetail section--lower">
           <div className="container">
             <figure className="workDetail__figure">
-              <Image
+              {/* <Image
                 src={work.src}
                 alt={work.title}
                 width={work.width}
                 height={work.height}
                 sizes="100vw"
                 quality={100}
-              />
+              /> */}
+              <picture>
+                <source
+                  media="(max-width: 640px)"
+                  srcSet={work.srcSp}
+                />
+                <img
+                  src={work.src}
+                  width={work.width}
+                  height={work.height}
+                  alt={work.title}
+                />
+              </picture>
             </figure>
             <h2 className="workDetail__title">{work.title}</h2>
             <a
