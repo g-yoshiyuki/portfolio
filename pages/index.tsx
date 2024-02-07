@@ -277,7 +277,7 @@ const Home: NextPage = () => {
                 <ul className="services__list">
                   <li className="services__list-item js-textAnim js-fast">
                     <a
-                      href="https://svc.goubarayoshiyuki.com/"
+                      href="https://goudesign.shop/"
                       className="services__list-link"
                       target="_blank"
                       rel="noopener"

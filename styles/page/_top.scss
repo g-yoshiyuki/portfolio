@@ -569,7 +569,7 @@ main {
     will-change: opacity, transform;
   }
   &:hover {
-    border: 1px solid rgba(50, 50, 50, .5);
+    border: 1px solid rgba(50, 50, 50, 0.5);
     &::before,
     &::after {
       opacity: 1;
@@ -585,7 +585,7 @@ main {
   &--card {
     &:hover {
       .hoverFilm {
-        border: 1px solid rgba(50, 50, 50, .5);
+        border: 1px solid rgba(50, 50, 50, 0.5);
         &::before,
         &::after {
           opacity: 1;
@@ -795,7 +795,7 @@ main {
   height: max(30px, math.div(50, 16) * 1rem);
   cursor: pointer;
   z-index: 60;
-  will-change: transform;
+  // will-change: transform;
   @include s.sm-min {
     display: none;
   }
@@ -810,7 +810,7 @@ main {
     background-color: s.$c-base--alt;
     position: relative;
     transition: all 0.5s;
-    will-change: transform;
+    // will-change: transform;
 
     &::before,
     &::after {
@@ -824,7 +824,7 @@ main {
       background-color: s.$c-base--alt;
       position: absolute;
       transition: all 0.5s;
-      will-change: transform;
+      // will-change: transform;
     }
 
     &::before {

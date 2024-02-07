@@ -106,16 +106,16 @@ export const worksArchive = [
     href: "https://www.dism.group/",
     class: ""
   },
-  {
-    src: "/img/works6.webp",
-    srcSp: "/img/sp/works6.webp",
-    title: "achieved株式会社",
-    text: "コンサルティング会社のコーポレートサイトです。全ページのデザインとコーディングを担当いたしました。",
-    width: 773.29,
-    height: 392.84,
-    href: "https://achieved.jp/",
-    class: ""
-  },
+  // {
+  //   src: "/img/works6.webp",
+  //   srcSp: "/img/sp/works6.webp",
+  //   title: "achieved株式会社",
+  //   text: "コンサルティング会社のコーポレートサイトです。全ページのデザインとコーディングを担当いたしました。",
+  //   width: 773.29,
+  //   height: 392.84,
+  //   href: "https://achieved.jp/",
+  //   class: ""
+  // },
   {
     src: "/img/works4.webp",
     srcSp: "/img/sp/works4.webp",
@@ -133,7 +133,7 @@ export const worksArchive = [
     text: "わたしのサービスサイトです。サイト設計、ロゴ作成、デザイン、コーディングを行っています",
     width: 773.29,
     height: 392.84,
-    href: "https://svc.goubarayoshiyuki.com/",
+    href: "https://goudesign.shop/",
     class: ""
   },
   {
@@ -157,7 +157,7 @@ export const footerLinksData = [
   },
   { href: "/works/", text: "- FREELANCE WORKS -" },
   {
-    href: "https://svc.goubarayoshiyuki.com/",
+    href: "https://goudesign.shop/",
     text: "- MY SERVICES -",
     isExternal: true,
   },

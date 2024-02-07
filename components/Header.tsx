@@ -171,7 +171,7 @@ export const Header = () => {
               </li>
               <li className="header__nav-item">
                 <a
-                  href="https://svc.goubarayoshiyuki.com/"
+                  href="https://goudesign.shop/"
                   target="_blank"
                   rel="noopener"
                   className="header__nav-link"
