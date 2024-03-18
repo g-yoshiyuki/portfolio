@@ -534,29 +534,29 @@ main {
   // will-change: transform;
 }
 .hoverFilm {
-  border: 1px solid transparent;
+  // border: 1px solid transparent;
   transition: 0.2s;
-  will-change: border;
+  // will-change: border;
   overflow: hidden;
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    // background: rgba(0, 0, 0, 0.8);
-    background: rgba(255, 255, 255, 0.5);
-    z-index: 1;
-    opacity: 0;
-    transition: 0.2s;
-  }
+  // &::before {
+  //   content: "";
+  //   position: absolute;
+  //   top: 0;
+  //   right: 0;
+  //   left: 0;
+  //   bottom: 0;
+  //   // background: rgba(0, 0, 0, 0.8);
+  //   background: rgba(255, 255, 255, 0.9);
+  //   z-index: 1;
+  //   opacity: 0;
+  //   transition: 0.2s;
+  // }
   &::after {
     content: "VIEW DETAIL";
     text-align: center;
     color: s.$c-base--alt;
     color: s.$c-base;
-    // color: s.$ac;
+    color: s.$ac;
     @include s.center;
     z-index: 2;
     font-size: math.div(22, 16) * 1rem;
@@ -569,33 +569,33 @@ main {
     will-change: opacity, transform;
   }
   &:hover {
-    border: 1px solid rgba(50, 50, 50, 0.5);
+    // border: 1px solid rgba(50, 50, 50, 0.5);
     &::before,
     &::after {
       opacity: 1;
     }
     &::after {
-      transition: opacity 0.2s 0.2s, transform 0.2s 0.2s;
+      transition: opacity 0.2s 0.1s, transform 0.2s 0.1s;
       transform: translate(-50%, -50%);
     }
     img {
-      filter: saturate(20%) blur(2px);
+      filter: brightness(70%) blur(2px);
     }
   }
   &--card {
     &:hover {
       .hoverFilm {
-        border: 1px solid rgba(50, 50, 50, 0.5);
+        // border: 1px solid rgba(50, 50, 50, 0.5);
         &::before,
         &::after {
           opacity: 1;
         }
         &::after {
-          transition: opacity 0.2s 0.2s, transform 0.2s 0.2s;
+          transition: opacity 0.2s 0.1s, transform 0.2s 0.1s;
           transform: translate(-50%, -50%);
         }
         img {
-          filter: saturate(20%) blur(2px);
+          filter: brightness(70%) blur(2px);
         }
       }
     }
@@ -993,7 +993,7 @@ main {
     // will-change: transform;
     img {
       // filter: drop-shadow(4px 0px 10px rgba(0, 0, 0, 0.35));
-      filter: drop-shadow(4px 0px 10px rgba(0, 0, 0, 0.4));
+      filter: drop-shadow(4px 4px 12px rgba(0, 0, 0, 0.5));
     }
     @include s.lg-min {
       display: block;
@@ -1310,9 +1310,10 @@ main {
   // background: s.$bg;
   background: s.$c-base--alt;
   position: relative;
+  z-index: 1;
   padding: {
     top: math.div(140, 16) * 1rem;
-    bottom: math.div(140, 16) * 1rem;
+    bottom: math.div(160, 16) * 1rem;
   }
   // @include s.xl-min {
   //   padding: {
@@ -1326,7 +1327,8 @@ main {
     top: math.div(13, 16) * 1rem;
     left: 0;
     li {
-      color: #e5e5e5;
+      // color: #e5e5e5;
+      color: s.$c-base--alt;
     }
   }
   .c-title {
@@ -1341,6 +1343,7 @@ main {
     // color: s.$main!important;
   }
   .c-title--accent {
+    color: s.$c-base;
     @include s.sm {
       font-size: math.div(28, 16) * 1rem;
     }
@@ -1352,26 +1355,27 @@ main {
     }
 
     &-item {
-      border: 1px solid s.$ac;
-      // border: 1px solid s.$c-base;
+      // border: 1px solid s.$ac;
+      border: 1px solid s.$c-base;
       border-radius: 0.8rem;
-      background: s.$c-base;
-      // background: transparent;
+      // background: s.$c-base;
+      background: s.$c-base--alt;
       // padding: 1.8rem 2.3rem;
       padding: 2rem 2.3rem;
       // box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.7);
-      filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.4));
+      // filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.4));
       @include s.sm-min {
         width: 32%;
       }
       &:not(:last-child) {
-        margin-bottom: math.div(25, 16) * 1rem;
+        margin-bottom: math.div(30, 16) * 1rem;
         @include s.sm-min {
           margin-bottom: 0;
         }
       }
     }
     &-icon {
+      filter: brightness(0%);
       height: math.div(75, 16) * 1rem;
       margin: {
         // top: 1.2rem;
@@ -1386,27 +1390,27 @@ main {
         height: 100%;
       }
     }
-    // .c-title--accent {
-    //   color: s.$c-base;
-    // }
-    // .c-text--alt {
-    //   color: s.$c-base;
-    // }
+    .c-title--accent {
+      color: s.$c-base;
+    }
+    .c-text--alt {
+      color: s.$c-base;
+    }
   }
 }
 /* ----------------------- */
 /*WORKS
 /* ----------------------- */
 .works {
+  margin-top: math.div(5, 16) * -1rem;
+  margin-bottom: math.div(10, 16) * -1rem;
   // min-height: 100vh;
   padding: {
     top: math.div(140, 16) * 1rem;
     bottom: math.div(200, 16) * 1rem;
   }
-  // background: #050505;
-  // background: #111;
-  background: #222;
-  // background: s.$white;
+
+  background: s.$c-base--alt;
   position: relative;
   &Background {
     position: absolute;
@@ -1416,6 +1420,12 @@ main {
     bottom: 0;
     opacity: 0;
     // display: none;
+  }
+  .c-title {
+    color: s.$c-base;
+  }
+  .c-heading {
+    color: s.$c-base;
   }
   // .container {
   //   position: relative;
@@ -1491,26 +1501,29 @@ main {
       overflow: hidden;
       pointer-events: auto;
       position: relative;
-      border: 1px solid transparent;
+      // border: 1px solid transparent;
       transition: 0.2s;
-      will-change: border;
-      &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.8);
-        background: rgba(247, 253, 249, 0.4);
-        z-index: 1;
-        opacity: 0;
-        transition: 0.2s;
+      // will-change: border;
+      img {
+        filter: brightness(90%);
       }
+      // &::before {
+      //   content: "";
+      //   position: absolute;
+      //   top: 0;
+      //   right: 0;
+      //   left: 0;
+      //   bottom: 0;
+      //   // background: rgba(0, 0, 0, 0.8);
+      //   // background: rgba(247, 253, 249, 0.4);
+      //   z-index: 1;
+      //   opacity: 0;
+      //   transition: 0.2s;
+      // }
       &::after {
         content: "VIEW DETAIL";
         text-align: center;
-        color: s.$c-base--alt;
+        // color: s.$c-base--alt;
         color: s.$c-base;
         // color: s.$ac;
         @include s.center;
@@ -1525,17 +1538,17 @@ main {
         will-change: opacity, transform;
       }
       &:hover {
-        border: 1px solid s.$ac;
+        // border: 1px solid s.$ac;
         &::before,
         &::after {
           opacity: 1;
         }
         &::after {
-          transition: opacity 0.2s 0.2s, transform 0.2s 0.2s;
+          transition: opacity 0.2s 0.1s, transform 0.2s 0.1s;
           transform: translate(-50%, -50%);
         }
         img {
-          filter: saturate(20%) blur(2px);
+          filter:  blur(2px) brightness(115%);
         }
       }
       &--s {
@@ -1565,7 +1578,8 @@ main {
 /* ----------------------- */
 .l-image {
   background: #050505;
-  height: math.div(250, 16) * 1rem;
+  // height: math.div(250, 16) * 1rem;
+  height: math.div(280, 16) * 1rem;
   // @include s.bg('works-bg.webp') {
   //   background-size: 100%;
   // }
@@ -1574,7 +1588,8 @@ main {
   overflow: hidden;
 
   @include s.sm-min {
-    height: math.div(350, 16) * 1rem;
+    // height: math.div(350, 16) * 1rem;
+    height: math.div(450, 16) * 1rem;
     // background-attachment: fixed;
     // background-size: auto;
   }
@@ -1600,20 +1615,24 @@ main {
     position: absolute;
 
     @include s.sm {
-      bottom: -16vw;
+      // bottom: -16vw;
+      bottom: -11vw;
     }
     @include s.medium-devices {
-      bottom: -18vw;
+      bottom: -10vw;
     }
     @include s.lg-min {
       // パララックスを導入することで、object-positionで画像の表示が正確に指定できないため、以下のpositionで調整している。
-      bottom: -25vw;
+      // bottom: -25vw;
+      bottom: -18vw;
     }
     @include s.xl-min {
-      bottom: -27vw;
+      // bottom: -27vw;
+      bottom: -20vw;
     }
     @include s.xxl-min {
-      bottom: -30vw;
+      // bottom: -30vw;
+      bottom: -22vw;
     }
   }
 }

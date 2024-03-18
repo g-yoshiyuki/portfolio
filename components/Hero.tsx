@@ -42,7 +42,7 @@ const Hero = () => {
     if (heroImage) {
       gsap.set(heroImage, {
         opacity: 0,
-        y: 5,
+        y: 30,
         willChange: "transform, opacity",
       });
     }

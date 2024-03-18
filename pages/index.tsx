@@ -135,25 +135,36 @@ const Home: NextPage = () => {
     gsap.to(".skills", {
       scrollTrigger: {
         trigger: ".skills",
-        // start: "top 48%",
-        start: "top 20%",
+        start: "top 12%",
         onEnter: () => {
           const skillsElements = Array.from(
             document.querySelectorAll(
-              ".skills, .skills .textAnim li, .skills .c-title span, .skills .c-heading"
+              ".skills, .skills .textAnim li, .skills .c-title span, .skills .c-heading,.skills .c-title--accent,.skills__list-item,.skills .c-text--alt,.skills__list-icon"
             )
           ) as HTMLElement[];
           skillsElements.forEach(
-            (el) => (el.style.willChange = "background-color, color")
+            (el) => (el.style.willChange = "background-color, color,filter ")
           );
+          gsap.to(".skills", { backgroundColor: "#222", duration:1 });
+          gsap.to(".skills .textAnim li", { color: "#323232", duration: 1 });
+          gsap.to(".skills .c-title span", { color: "#E7FAEC", duration: 1 });
+          gsap.to(".skills .c-heading", { color: "#efefef", duration: 1 });
 
-          gsap.to(".skills", { backgroundColor: "#222", duration: 0.5 });
-          gsap.to(".skills .textAnim li", { color: "#323232", duration: 0.5 });
-          gsap.to(".skills .c-title span", { color: "#E7FAEC", duration: 0.5 });
-          gsap.to(".skills .c-heading", { color: "#efefef", duration: 0.5 });
-          // gsap.to(".skills .c-title--accent", {color: '#efefef', duration: .4});
-          // gsap.to(".skills .c-text--alt", {color: '#efefef', duration: .4});
-          // gsap.to(".skills__list-item", {borderColor: '#C3EED7',backgroundColor: '#323232', duration: .4});
+          gsap.to(".skills .c-title--accent", {
+            color: "#E7FAEC",
+            duration: 1,
+          });
+          gsap.to(".skills .c-text--alt", { color: "#efefef", duration: 1 });
+          gsap.to(".skills__list-item", {
+            borderColor: "#C3EED7",
+            backgroundColor: "#323232",
+            filter: "drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.4))",
+            duration:1,
+          });
+          gsap.to(".skills__list-icon", {
+            filter: "brightness(100%)",
+            duration: 1,
+          });
 
           gsap.to(
             {},
@@ -175,29 +186,34 @@ const Home: NextPage = () => {
     gsap.to(".works", {
       scrollTrigger: {
         trigger: ".works",
-        // start: "top 40%",
-        start: "top 20%",
+        start: "top 12%",
         onEnter: () => {
-          const worksBg = document.querySelector(
-            ".worksBackground"
-          ) as HTMLElement;
-          if (worksBg) {
-            worksBg.style.willChange = "opacity";
-            gsap.to(".worksBackground", { opacity: 1, duration: 0.5 });
+          const worksElements = Array.from(
+            document.querySelectorAll(
+              ".worksBackground,.works c-title,.works c-heading"
+            )
+          ) as HTMLElement[];
 
-            gsap.to(
-              {},
-              {
-                duration: 0.1,
-                onComplete: () => {
+          worksElements.forEach(
+            (el) => (el.style.willChange = "background-color, color")
+          );
+          gsap.to(".worksBackground", { opacity: 1, duration: 1 });
+          gsap.to(".works .c-title", { color: "#E7FAEC",  duration: 1 });
+          gsap.to(".works .c-heading", { color: "#efefef",  duration: 1 });
+
+          gsap.to(
+            {},
+            {
+              duration: 0.1,
+              onComplete: () =>
+                worksElements.forEach((el) => {
                   // if (!isSafari()) {
-                  worksBg.style.willChange = "auto";
+                  el.style.willChange = "auto";
                   // }
-                },
-                delay: 0.5,
-              }
-            );
-          }
+                }),
+              delay: 0.5,
+            }
+          );
         },
       },
     });
